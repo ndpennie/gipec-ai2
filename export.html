@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Project Spear — moving</title></head>
+<body style="font:15px/1.6 system-ui,sans-serif;background:#0f2a5c;color:#fff;margin:0;display:flex;align-items:center;justify-content:center;min-height:100vh;text-align:center;padding:20px">
+<div id="m">Moving this device’s Project Spear setup and cases to the new address…</div>
+<script>
+/* Hands this device's saved Project Spear data to the new address, and only to it.
+   Runs only when opened by the new site's "Move my setup & cases" button. */
+(function(){
+  var NEW='https://gipec-ai2.github.io',m=document.getElementById('m');
+  if(!window.opener){m.textContent='Open the new Project Spear address and press “Move my setup & cases” there.';return}
+  var d={type:'spear-move',key:localStorage.getItem('spear_key')||'',items:localStorage.getItem('spear_items')||'[]',extra:{}};
+  ['spear_api','spear_library','spear_refimgs','spear_rules','spear_log','spear_follow','spear_ops_tags','spear_seen','spear_simple','spear_author'].forEach(function(k){var v=localStorage.getItem(k);if(v!=null)d.extra[k]=v});
+  if(!d.key){m.textContent='This device was never set up on the old address. Open the setup link on the new address instead.';return}
+  try{window.opener.postMessage(d,NEW);m.textContent='Done — you can close this window.';setTimeout(function(){window.close()},1500)}
+  catch(e){m.textContent='Could not hand over the data: '+e}
+})();
+</script></body></html>
