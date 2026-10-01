@@ -19,7 +19,7 @@
     items=items.slice(0,300).map(function(i){var c={};for(var k in i){if(k!=='media'&&k!=='thumb')c[k]=i[k]}return c});
     d.items=JSON.stringify(items);delete d.extra.spear_refimgs;
     var enc=btoa(unescape(encodeURIComponent(JSON.stringify(d)))).replace(/\+/g,'-').replace(/\//g,'_');
-    location.replace(NEW+'/#spearmove='+enc);return}
+    location.replace(NEW+'/?moved='+Date.now()+'#spearmove='+enc);return}
   try{window.opener.postMessage(d,NEW);m.textContent='Done — you can close this window.';setTimeout(function(){window.close()},1500)}
   catch(e){m.textContent='Could not hand over the data: '+e}
 })();
