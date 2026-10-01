@@ -1,0 +1,939 @@
+{
+ "_about": "Policy index for report writing. This deliberately holds policy NAMES, canonical URLs and a plain-language summary of what each prohibits \u2014 not the platforms' full policy text. Their wording is copyrighted, several platforms disallow automated fetching in robots.txt, and the report only needs the correct policy name plus a link a reviewer can check. Cite the name, link the URL, and quote sparingly from the page itself.",
+ "_maintenance": "Policy names change \u2014 Meta renamed 'Hate Speech' to 'Hateful Conduct' while keeping the old URL slug. Re-check anything marked verified:false before relying on it in a formal referral, and update last_verified when you do.",
+ "generated": "2026-09-06",
+ "platforms": {
+  "facebook": {
+   "display": "Facebook (Meta)",
+   "index": "https://transparency.meta.com/policies/community-standards/",
+   "verified": true,
+   "last_verified": "2026-09-06",
+   "note": "Policy list read directly from Meta's Transparency Center on this date.",
+   "policies": [
+    {
+     "name": "Dangerous Organizations and Individuals",
+     "url": "https://transparency.meta.com/policies/community-standards/dangerous-individuals-organizations/",
+     "prohibits": "Designated terrorist organisations, hate entities and their leaders; praise, substantive support or representation of them, including logos, flags, slogans and media-affiliate branding.",
+     "maps_to": [
+      "isis_terrorism",
+      "domestic_terrorism",
+      "propaganda",
+      "recruitment",
+      "glorification",
+      "financing"
+     ]
+    },
+    {
+     "name": "Violence and Incitement",
+     "url": "https://transparency.meta.com/policies/community-standards/violence-incitement/",
+     "prohibits": "Threats of violence, calls to action, statements of intent, aspirational or conditional statements, and instructions for making or using weapons.",
+     "maps_to": [
+      "incitement",
+      "operational_planning",
+      "public_safety_threat"
+     ]
+    },
+    {
+     "name": "Hateful Conduct",
+     "url": "https://transparency.meta.com/policies/community-standards/hate-speech/",
+     "prohibits": "Attacks on people based on protected characteristics \u2014 race, ethnicity, national origin, religion, caste, sex, gender identity, sexual orientation, disability, serious disease. Includes hateful stereotypes, slurs, and calls for exclusion or segregation. NOTE: Meta renamed this policy from 'Hate Speech' to 'Hateful Conduct'; the URL slug is still hate-speech.",
+     "maps_to": [
+      "antisemitism",
+      "domestic_terrorism",
+      "propaganda"
+     ]
+    },
+    {
+     "name": "Coordinating Harm and Promoting Crime",
+     "url": "https://transparency.meta.com/policies/community-standards/coordinating-harm-publicizing-crime/",
+     "prohibits": "Coordinating or advocating for harm, and publicising crime, including recruitment and coordination for offline harm.",
+     "maps_to": [
+      "recruitment",
+      "operational_planning",
+      "public_safety_threat"
+     ]
+    },
+    {
+     "name": "Restricted Goods and Services",
+     "url": "https://transparency.meta.com/policies/community-standards/regulated-goods/",
+     "prohibits": "Attempts to buy, sell, trade, donate, gift or solicit non-medical drugs, pharmaceutical drugs, marijuana, firearms and endangered species.",
+     "maps_to": [
+      "narcotics",
+      "counterfeit_meds"
+     ]
+    },
+    {
+     "name": "Fraud, Scams, and Deceptive Practices",
+     "url": "https://transparency.meta.com/policies/community-standards/fraud-scams/",
+     "prohibits": "Deceiving people out of money or property, including counterfeit goods and deceptive commercial claims.",
+     "maps_to": [
+      "counterfeit_meds",
+      "inauthentic_ai"
+     ]
+    },
+    {
+     "name": "Child Sexual Exploitation, Abuse, and Nudity",
+     "url": "https://transparency.meta.com/policies/community-standards/child-sexual-exploitation-abuse-nudity/",
+     "prohibits": "Content that sexually exploits or endangers children. Reports route to NCMEC; media is never stored or described by this system.",
+     "maps_to": [
+      "child_safety"
+     ]
+    },
+    {
+     "name": "Additional Protection of Minors",
+     "url": "https://transparency.meta.com/policies/community-standards/additional-protection-minors/",
+     "prohibits": "Further protections for minors, including content that risks their safety or exploits them.",
+     "maps_to": [
+      "child_safety"
+     ]
+    },
+    {
+     "name": "Suicide, Self-Injury, and Eating Disorders",
+     "url": "https://transparency.meta.com/policies/community-standards/suicide-self-injury/",
+     "prohibits": "Content that promotes, encourages, coordinates or provides instructions for suicide, self-injury or eating disorders.",
+     "maps_to": [
+      "self_harm_promotion"
+     ]
+    },
+    {
+     "name": "Inauthentic Behavior",
+     "url": "https://transparency.meta.com/policies/community-standards/inauthentic-behavior/",
+     "prohibits": "Use of Meta assets to mislead about identity, purpose or origin, including coordinated inauthentic behaviour.",
+     "maps_to": [
+      "inauthentic_ai"
+     ]
+    },
+    {
+     "name": "Account Integrity",
+     "url": "https://transparency.meta.com/policies/community-standards/account-integrity/",
+     "prohibits": "Fake accounts, misrepresented identity and account-level manipulation.",
+     "maps_to": [
+      "inauthentic_ai"
+     ]
+    },
+    {
+     "name": "Authentic Identity Representation",
+     "url": "https://transparency.meta.com/policies/community-standards/authentic-identity-representation/",
+     "prohibits": "Misrepresenting who you are on the platform.",
+     "maps_to": [
+      "inauthentic_ai"
+     ]
+    },
+    {
+     "name": "Violent and Graphic Content",
+     "url": "https://transparency.meta.com/policies/community-standards/violent-graphic-content/",
+     "prohibits": "Extremely graphic violence, including content that glorifies violence or celebrates suffering.",
+     "maps_to": [
+      "glorification",
+      "public_safety_threat"
+     ]
+    },
+    {
+     "name": "Human Exploitation",
+     "url": "https://transparency.meta.com/policies/community-standards/human-exploitation/",
+     "prohibits": "Human trafficking and other forms of exploitation.",
+     "maps_to": [
+      "child_safety",
+      "public_safety_threat"
+     ]
+    },
+    {
+     "name": "Bullying and Harassment",
+     "url": "https://transparency.meta.com/policies/community-standards/bullying-harassment/",
+     "prohibits": "Targeted harassment, degrading content and unwanted contact.",
+     "maps_to": [
+      "antisemitism",
+      "public_safety_threat"
+     ]
+    },
+    {
+     "name": "Adult Sexual Exploitation",
+     "url": "https://transparency.meta.com/policies/community-standards/sexual-exploitation-adults/",
+     "prohibits": "Non-consensual sexual content and sexual exploitation of adults.",
+     "maps_to": [
+      "public_safety_threat"
+     ]
+    },
+    {
+     "name": "Privacy Violations",
+     "url": "https://transparency.meta.com/policies/community-standards/privacy-violations-image-privacy-rights/",
+     "prohibits": "Sharing personally identifiable information without consent, including doxxing.",
+     "maps_to": [
+      "public_safety_threat"
+     ]
+    },
+    {
+     "name": "Misinformation",
+     "url": "https://transparency.meta.com/policies/community-standards/misinformation/",
+     "prohibits": "Misinformation that contributes to imminent physical harm, interferes with voting, or is a manipulated media harm.",
+     "maps_to": [
+      "propaganda",
+      "inauthentic_ai"
+     ]
+    },
+    {
+     "name": "Spam",
+     "url": "https://transparency.meta.com/policies/community-standards/spam/",
+     "prohibits": "Deceptive or misleading practices to drive traffic or engagement.",
+     "maps_to": [
+      "inauthentic_ai"
+     ]
+    },
+    {
+     "name": "Cybersecurity",
+     "url": "https://transparency.meta.com/policies/community-standards/cybersecurity/",
+     "prohibits": "Attempts to gather sensitive information or compromise accounts.",
+     "maps_to": [
+      "public_safety_threat"
+     ]
+    },
+    {
+     "name": "Locally Illegal Content, Products, or Services",
+     "url": "https://transparency.meta.com/policies/community-standards/locally-illegal-products-services/",
+     "prohibits": "Content, products or services illegal in a specific jurisdiction.",
+     "maps_to": [
+      "narcotics",
+      "counterfeit_meds"
+     ]
+    }
+   ]
+  },
+  "instagram": {
+   "display": "Instagram (Meta)",
+   "index": "https://transparency.meta.com/policies/community-standards/",
+   "verified": true,
+   "last_verified": "2026-09-06",
+   "note": "Instagram enforces the same Meta Community Standards as Facebook.",
+   "policies": [
+    {
+     "name": "Dangerous Organizations and Individuals",
+     "url": "https://transparency.meta.com/policies/community-standards/dangerous-individuals-organizations/",
+     "prohibits": "Designated terrorist organisations, hate entities and their leaders; praise, substantive support or representation of them, including logos, flags, slogans and media-affiliate branding.",
+     "maps_to": [
+      "isis_terrorism",
+      "domestic_terrorism",
+      "propaganda",
+      "recruitment",
+      "glorification",
+      "financing"
+     ]
+    },
+    {
+     "name": "Violence and Incitement",
+     "url": "https://transparency.meta.com/policies/community-standards/violence-incitement/",
+     "prohibits": "Threats of violence, calls to action, statements of intent, aspirational or conditional statements, and instructions for making or using weapons.",
+     "maps_to": [
+      "incitement",
+      "operational_planning",
+      "public_safety_threat"
+     ]
+    },
+    {
+     "name": "Hateful Conduct",
+     "url": "https://transparency.meta.com/policies/community-standards/hate-speech/",
+     "prohibits": "Attacks on people based on protected characteristics \u2014 race, ethnicity, national origin, religion, caste, sex, gender identity, sexual orientation, disability, serious disease. Includes hateful stereotypes, slurs, and calls for exclusion or segregation. NOTE: Meta renamed this policy from 'Hate Speech' to 'Hateful Conduct'; the URL slug is still hate-speech.",
+     "maps_to": [
+      "antisemitism",
+      "domestic_terrorism",
+      "propaganda"
+     ]
+    },
+    {
+     "name": "Coordinating Harm and Promoting Crime",
+     "url": "https://transparency.meta.com/policies/community-standards/coordinating-harm-publicizing-crime/",
+     "prohibits": "Coordinating or advocating for harm, and publicising crime, including recruitment and coordination for offline harm.",
+     "maps_to": [
+      "recruitment",
+      "operational_planning",
+      "public_safety_threat"
+     ]
+    },
+    {
+     "name": "Restricted Goods and Services",
+     "url": "https://transparency.meta.com/policies/community-standards/regulated-goods/",
+     "prohibits": "Attempts to buy, sell, trade, donate, gift or solicit non-medical drugs, pharmaceutical drugs, marijuana, firearms and endangered species.",
+     "maps_to": [
+      "narcotics",
+      "counterfeit_meds"
+     ]
+    },
+    {
+     "name": "Fraud, Scams, and Deceptive Practices",
+     "url": "https://transparency.meta.com/policies/community-standards/fraud-scams/",
+     "prohibits": "Deceiving people out of money or property, including counterfeit goods and deceptive commercial claims.",
+     "maps_to": [
+      "counterfeit_meds",
+      "inauthentic_ai"
+     ]
+    },
+    {
+     "name": "Child Sexual Exploitation, Abuse, and Nudity",
+     "url": "https://transparency.meta.com/policies/community-standards/child-sexual-exploitation-abuse-nudity/",
+     "prohibits": "Content that sexually exploits or endangers children. Reports route to NCMEC; media is never stored or described by this system.",
+     "maps_to": [
+      "child_safety"
+     ]
+    },
+    {
+     "name": "Additional Protection of Minors",
+     "url": "https://transparency.meta.com/policies/community-standards/additional-protection-minors/",
+     "prohibits": "Further protections for minors, including content that risks their safety or exploits them.",
+     "maps_to": [
+      "child_safety"
+     ]
+    },
+    {
+     "name": "Suicide, Self-Injury, and Eating Disorders",
+     "url": "https://transparency.meta.com/policies/community-standards/suicide-self-injury/",
+     "prohibits": "Content that promotes, encourages, coordinates or provides instructions for suicide, self-injury or eating disorders.",
+     "maps_to": [
+      "self_harm_promotion"
+     ]
+    },
+    {
+     "name": "Inauthentic Behavior",
+     "url": "https://transparency.meta.com/policies/community-standards/inauthentic-behavior/",
+     "prohibits": "Use of Meta assets to mislead about identity, purpose or origin, including coordinated inauthentic behaviour.",
+     "maps_to": [
+      "inauthentic_ai"
+     ]
+    },
+    {
+     "name": "Account Integrity",
+     "url": "https://transparency.meta.com/policies/community-standards/account-integrity/",
+     "prohibits": "Fake accounts, misrepresented identity and account-level manipulation.",
+     "maps_to": [
+      "inauthentic_ai"
+     ]
+    },
+    {
+     "name": "Authentic Identity Representation",
+     "url": "https://transparency.meta.com/policies/community-standards/authentic-identity-representation/",
+     "prohibits": "Misrepresenting who you are on the platform.",
+     "maps_to": [
+      "inauthentic_ai"
+     ]
+    },
+    {
+     "name": "Violent and Graphic Content",
+     "url": "https://transparency.meta.com/policies/community-standards/violent-graphic-content/",
+     "prohibits": "Extremely graphic violence, including content that glorifies violence or celebrates suffering.",
+     "maps_to": [
+      "glorification",
+      "public_safety_threat"
+     ]
+    },
+    {
+     "name": "Human Exploitation",
+     "url": "https://transparency.meta.com/policies/community-standards/human-exploitation/",
+     "prohibits": "Human trafficking and other forms of exploitation.",
+     "maps_to": [
+      "child_safety",
+      "public_safety_threat"
+     ]
+    },
+    {
+     "name": "Bullying and Harassment",
+     "url": "https://transparency.meta.com/policies/community-standards/bullying-harassment/",
+     "prohibits": "Targeted harassment, degrading content and unwanted contact.",
+     "maps_to": [
+      "antisemitism",
+      "public_safety_threat"
+     ]
+    },
+    {
+     "name": "Adult Sexual Exploitation",
+     "url": "https://transparency.meta.com/policies/community-standards/sexual-exploitation-adults/",
+     "prohibits": "Non-consensual sexual content and sexual exploitation of adults.",
+     "maps_to": [
+      "public_safety_threat"
+     ]
+    },
+    {
+     "name": "Privacy Violations",
+     "url": "https://transparency.meta.com/policies/community-standards/privacy-violations-image-privacy-rights/",
+     "prohibits": "Sharing personally identifiable information without consent, including doxxing.",
+     "maps_to": [
+      "public_safety_threat"
+     ]
+    },
+    {
+     "name": "Misinformation",
+     "url": "https://transparency.meta.com/policies/community-standards/misinformation/",
+     "prohibits": "Misinformation that contributes to imminent physical harm, interferes with voting, or is a manipulated media harm.",
+     "maps_to": [
+      "propaganda",
+      "inauthentic_ai"
+     ]
+    },
+    {
+     "name": "Spam",
+     "url": "https://transparency.meta.com/policies/community-standards/spam/",
+     "prohibits": "Deceptive or misleading practices to drive traffic or engagement.",
+     "maps_to": [
+      "inauthentic_ai"
+     ]
+    },
+    {
+     "name": "Cybersecurity",
+     "url": "https://transparency.meta.com/policies/community-standards/cybersecurity/",
+     "prohibits": "Attempts to gather sensitive information or compromise accounts.",
+     "maps_to": [
+      "public_safety_threat"
+     ]
+    },
+    {
+     "name": "Locally Illegal Content, Products, or Services",
+     "url": "https://transparency.meta.com/policies/community-standards/locally-illegal-products-services/",
+     "prohibits": "Content, products or services illegal in a specific jurisdiction.",
+     "maps_to": [
+      "narcotics",
+      "counterfeit_meds"
+     ]
+    }
+   ]
+  },
+  "threads": {
+   "display": "Threads (Meta)",
+   "index": "https://transparency.meta.com/policies/community-standards/",
+   "verified": true,
+   "last_verified": "2026-09-06",
+   "note": "Also governed by Meta Community Standards.",
+   "policies": [
+    {
+     "name": "Dangerous Organizations and Individuals",
+     "url": "https://transparency.meta.com/policies/community-standards/dangerous-individuals-organizations/",
+     "prohibits": "Designated terrorist organisations, hate entities and their leaders; praise, substantive support or representation of them, including logos, flags, slogans and media-affiliate branding.",
+     "maps_to": [
+      "isis_terrorism",
+      "domestic_terrorism",
+      "propaganda",
+      "recruitment",
+      "glorification",
+      "financing"
+     ]
+    },
+    {
+     "name": "Violence and Incitement",
+     "url": "https://transparency.meta.com/policies/community-standards/violence-incitement/",
+     "prohibits": "Threats of violence, calls to action, statements of intent, aspirational or conditional statements, and instructions for making or using weapons.",
+     "maps_to": [
+      "incitement",
+      "operational_planning",
+      "public_safety_threat"
+     ]
+    },
+    {
+     "name": "Hateful Conduct",
+     "url": "https://transparency.meta.com/policies/community-standards/hate-speech/",
+     "prohibits": "Attacks on people based on protected characteristics \u2014 race, ethnicity, national origin, religion, caste, sex, gender identity, sexual orientation, disability, serious disease. Includes hateful stereotypes, slurs, and calls for exclusion or segregation. NOTE: Meta renamed this policy from 'Hate Speech' to 'Hateful Conduct'; the URL slug is still hate-speech.",
+     "maps_to": [
+      "antisemitism",
+      "domestic_terrorism",
+      "propaganda"
+     ]
+    },
+    {
+     "name": "Coordinating Harm and Promoting Crime",
+     "url": "https://transparency.meta.com/policies/community-standards/coordinating-harm-publicizing-crime/",
+     "prohibits": "Coordinating or advocating for harm, and publicising crime, including recruitment and coordination for offline harm.",
+     "maps_to": [
+      "recruitment",
+      "operational_planning",
+      "public_safety_threat"
+     ]
+    },
+    {
+     "name": "Restricted Goods and Services",
+     "url": "https://transparency.meta.com/policies/community-standards/regulated-goods/",
+     "prohibits": "Attempts to buy, sell, trade, donate, gift or solicit non-medical drugs, pharmaceutical drugs, marijuana, firearms and endangered species.",
+     "maps_to": [
+      "narcotics",
+      "counterfeit_meds"
+     ]
+    },
+    {
+     "name": "Fraud, Scams, and Deceptive Practices",
+     "url": "https://transparency.meta.com/policies/community-standards/fraud-scams/",
+     "prohibits": "Deceiving people out of money or property, including counterfeit goods and deceptive commercial claims.",
+     "maps_to": [
+      "counterfeit_meds",
+      "inauthentic_ai"
+     ]
+    },
+    {
+     "name": "Child Sexual Exploitation, Abuse, and Nudity",
+     "url": "https://transparency.meta.com/policies/community-standards/child-sexual-exploitation-abuse-nudity/",
+     "prohibits": "Content that sexually exploits or endangers children. Reports route to NCMEC; media is never stored or described by this system.",
+     "maps_to": [
+      "child_safety"
+     ]
+    },
+    {
+     "name": "Additional Protection of Minors",
+     "url": "https://transparency.meta.com/policies/community-standards/additional-protection-minors/",
+     "prohibits": "Further protections for minors, including content that risks their safety or exploits them.",
+     "maps_to": [
+      "child_safety"
+     ]
+    },
+    {
+     "name": "Suicide, Self-Injury, and Eating Disorders",
+     "url": "https://transparency.meta.com/policies/community-standards/suicide-self-injury/",
+     "prohibits": "Content that promotes, encourages, coordinates or provides instructions for suicide, self-injury or eating disorders.",
+     "maps_to": [
+      "self_harm_promotion"
+     ]
+    },
+    {
+     "name": "Inauthentic Behavior",
+     "url": "https://transparency.meta.com/policies/community-standards/inauthentic-behavior/",
+     "prohibits": "Use of Meta assets to mislead about identity, purpose or origin, including coordinated inauthentic behaviour.",
+     "maps_to": [
+      "inauthentic_ai"
+     ]
+    },
+    {
+     "name": "Account Integrity",
+     "url": "https://transparency.meta.com/policies/community-standards/account-integrity/",
+     "prohibits": "Fake accounts, misrepresented identity and account-level manipulation.",
+     "maps_to": [
+      "inauthentic_ai"
+     ]
+    },
+    {
+     "name": "Authentic Identity Representation",
+     "url": "https://transparency.meta.com/policies/community-standards/authentic-identity-representation/",
+     "prohibits": "Misrepresenting who you are on the platform.",
+     "maps_to": [
+      "inauthentic_ai"
+     ]
+    },
+    {
+     "name": "Violent and Graphic Content",
+     "url": "https://transparency.meta.com/policies/community-standards/violent-graphic-content/",
+     "prohibits": "Extremely graphic violence, including content that glorifies violence or celebrates suffering.",
+     "maps_to": [
+      "glorification",
+      "public_safety_threat"
+     ]
+    },
+    {
+     "name": "Human Exploitation",
+     "url": "https://transparency.meta.com/policies/community-standards/human-exploitation/",
+     "prohibits": "Human trafficking and other forms of exploitation.",
+     "maps_to": [
+      "child_safety",
+      "public_safety_threat"
+     ]
+    },
+    {
+     "name": "Bullying and Harassment",
+     "url": "https://transparency.meta.com/policies/community-standards/bullying-harassment/",
+     "prohibits": "Targeted harassment, degrading content and unwanted contact.",
+     "maps_to": [
+      "antisemitism",
+      "public_safety_threat"
+     ]
+    },
+    {
+     "name": "Adult Sexual Exploitation",
+     "url": "https://transparency.meta.com/policies/community-standards/sexual-exploitation-adults/",
+     "prohibits": "Non-consensual sexual content and sexual exploitation of adults.",
+     "maps_to": [
+      "public_safety_threat"
+     ]
+    },
+    {
+     "name": "Privacy Violations",
+     "url": "https://transparency.meta.com/policies/community-standards/privacy-violations-image-privacy-rights/",
+     "prohibits": "Sharing personally identifiable information without consent, including doxxing.",
+     "maps_to": [
+      "public_safety_threat"
+     ]
+    },
+    {
+     "name": "Misinformation",
+     "url": "https://transparency.meta.com/policies/community-standards/misinformation/",
+     "prohibits": "Misinformation that contributes to imminent physical harm, interferes with voting, or is a manipulated media harm.",
+     "maps_to": [
+      "propaganda",
+      "inauthentic_ai"
+     ]
+    },
+    {
+     "name": "Spam",
+     "url": "https://transparency.meta.com/policies/community-standards/spam/",
+     "prohibits": "Deceptive or misleading practices to drive traffic or engagement.",
+     "maps_to": [
+      "inauthentic_ai"
+     ]
+    },
+    {
+     "name": "Cybersecurity",
+     "url": "https://transparency.meta.com/policies/community-standards/cybersecurity/",
+     "prohibits": "Attempts to gather sensitive information or compromise accounts.",
+     "maps_to": [
+      "public_safety_threat"
+     ]
+    },
+    {
+     "name": "Locally Illegal Content, Products, or Services",
+     "url": "https://transparency.meta.com/policies/community-standards/locally-illegal-products-services/",
+     "prohibits": "Content, products or services illegal in a specific jurisdiction.",
+     "maps_to": [
+      "narcotics",
+      "counterfeit_meds"
+     ]
+    }
+   ]
+  },
+  "tiktok": {
+   "display": "TikTok",
+   "index": "https://www.tiktok.com/community-guidelines/en/",
+   "verified": false,
+   "last_verified": null,
+   "note": "NOT VERIFIED. tiktok.com disallows automated fetching in robots.txt, and the policy page renders empty to automation even in a normal browser session. Names below are from general knowledge. Open the link and confirm before citing TikTok in a formal referral.",
+   "policies": [
+    {
+     "name": "Violent and Hateful Organizations and Individuals",
+     "url": "https://www.tiktok.com/community-guidelines/en/safety-civility",
+     "prohibits": "Presence of, or promotion/material support for, violent extremist and hateful organisations.",
+     "maps_to": [
+      "isis_terrorism",
+      "domestic_terrorism",
+      "recruitment",
+      "glorification",
+      "propaganda"
+     ]
+    },
+    {
+     "name": "Hate Speech and Hateful Behavior",
+     "url": "https://www.tiktok.com/community-guidelines/en/safety-civility",
+     "prohibits": "Attacks on protected attributes, hateful ideologies and slurs.",
+     "maps_to": [
+      "antisemitism",
+      "domestic_terrorism"
+     ]
+    },
+    {
+     "name": "Violent Behaviors and Criminal Activities",
+     "url": "https://www.tiktok.com/community-guidelines/en/safety-civility",
+     "prohibits": "Threats, incitement to violence and promotion of criminal activity.",
+     "maps_to": [
+      "incitement",
+      "operational_planning",
+      "public_safety_threat"
+     ]
+    },
+    {
+     "name": "Youth Safety and Well-Being",
+     "url": "https://www.tiktok.com/community-guidelines/en/youth-safety",
+     "prohibits": "Sexual exploitation of minors and content harmful to young people.",
+     "maps_to": [
+      "child_safety",
+      "self_harm_promotion"
+     ]
+    },
+    {
+     "name": "Regulated Goods and Commercial Activities",
+     "url": "https://www.tiktok.com/community-guidelines/en/regulated-commercial-activities",
+     "prohibits": "Trade in drugs, controlled substances, weapons and counterfeit goods.",
+     "maps_to": [
+      "narcotics",
+      "counterfeit_meds"
+     ]
+    }
+   ]
+  },
+  "youtube": {
+   "display": "YouTube",
+   "index": "https://support.google.com/youtube/topic/9223153",
+   "verified": true,
+   "last_verified": "2026-09-06",
+   "note": "Policy titles read directly from YouTube's own Help topics on this date.",
+   "policies": [
+    {
+     "name": "Violent extremist or criminal organizations policy",
+     "url": "https://support.google.com/youtube/answer/9229472",
+     "prohibits": "Content produced by, or praising/promoting, violent extremist or criminal organisations.",
+     "maps_to": [
+      "isis_terrorism",
+      "domestic_terrorism",
+      "recruitment",
+      "glorification",
+      "propaganda",
+      "financing"
+     ]
+    },
+    {
+     "name": "Hate speech policy",
+     "url": "https://support.google.com/youtube/answer/2801939",
+     "prohibits": "Content promoting violence or hatred against individuals or groups based on protected attributes.",
+     "maps_to": [
+      "antisemitism",
+      "domestic_terrorism"
+     ]
+    },
+    {
+     "name": "Violent or graphic content policies",
+     "url": "https://support.google.com/youtube/answer/2802008",
+     "prohibits": "Violent or gory content intended to shock, and glorification of violence.",
+     "maps_to": [
+      "glorification",
+      "public_safety_threat",
+      "incitement"
+     ]
+    },
+    {
+     "name": "Harmful or dangerous content policy",
+     "url": "https://support.google.com/youtube/answer/2801964",
+     "prohibits": "Content encouraging dangerous or illegal activities, including drug use and instructional harm.",
+     "maps_to": [
+      "narcotics",
+      "public_safety_threat",
+      "operational_planning"
+     ]
+    },
+    {
+     "name": "Harassment & cyberbullying policies",
+     "url": "https://support.google.com/youtube/answer/2802268",
+     "prohibits": "Targeted abuse, threats and sustained harassment.",
+     "maps_to": [
+      "antisemitism",
+      "public_safety_threat"
+     ]
+    },
+    {
+     "name": "Child safety policy",
+     "url": "https://support.google.com/youtube/answer/2801999",
+     "prohibits": "Content endangering the emotional or physical well-being of minors.",
+     "maps_to": [
+      "child_safety"
+     ]
+    },
+    {
+     "name": "Suicide, self-harm, and eating disorders policy",
+     "url": "https://support.google.com/youtube/answer/2802245",
+     "prohibits": "Content promoting or glorifying suicide, self-harm or eating disorders.",
+     "maps_to": [
+      "self_harm_promotion"
+     ]
+    },
+    {
+     "name": "Nudity & Sexual Content Policy",
+     "url": "https://support.google.com/youtube/answer/2802002",
+     "prohibits": "Sexually explicit content.",
+     "maps_to": [
+      "public_safety_threat"
+     ]
+    },
+    {
+     "name": "Thumbnails policy",
+     "url": "https://support.google.com/youtube/answer/9229980",
+     "prohibits": "Thumbnails that violate the community guidelines.",
+     "maps_to": [
+      "glorification",
+      "propaganda"
+     ]
+    }
+   ]
+  },
+  "x": {
+   "display": "X (Twitter)",
+   "index": "https://help.x.com/en/rules-and-policies/x-rules",
+   "verified": true,
+   "last_verified": "2026-09-06",
+   "note": "Titles read from each policy page on help.x.com on this date. Note it is 'Violent Content Policy', not 'Violent Speech'.",
+   "policies": [
+    {
+     "name": "Violent and hateful entities policy",
+     "url": "https://help.x.com/en/rules-and-policies/violent-entities",
+     "prohibits": "Affiliation with, or promotion of, violent extremist and hateful entities and their activities.",
+     "maps_to": [
+      "isis_terrorism",
+      "domestic_terrorism",
+      "recruitment",
+      "glorification",
+      "propaganda",
+      "financing"
+     ]
+    },
+    {
+     "name": "Hateful Conduct",
+     "url": "https://help.x.com/en/rules-and-policies/hateful-conduct-policy",
+     "prohibits": "Attacks on people on the basis of protected categories, including hateful imagery and symbols.",
+     "maps_to": [
+      "antisemitism",
+      "domestic_terrorism"
+     ]
+    },
+    {
+     "name": "Violent Content Policy",
+     "url": "https://help.x.com/en/rules-and-policies/violent-speech",
+     "prohibits": "Threats of violence, wishes of harm, and incitement.",
+     "maps_to": [
+      "incitement",
+      "public_safety_threat",
+      "operational_planning"
+     ]
+    },
+    {
+     "name": "Perpetrators of Violent Attacks",
+     "url": "https://help.x.com/en/rules-and-policies/perpetrators-of-violent-attacks",
+     "prohibits": "Accounts of, and manifestos or media produced by, perpetrators of terrorist and mass-violent attacks.",
+     "maps_to": [
+      "isis_terrorism",
+      "domestic_terrorism",
+      "glorification"
+     ]
+    },
+    {
+     "name": "Our policy on child sexual exploitation",
+     "url": "https://help.x.com/en/rules-and-policies/sexual-exploitation-policy",
+     "prohibits": "Any material or conduct that sexually exploits children.",
+     "maps_to": [
+      "child_safety"
+     ]
+    },
+    {
+     "name": "Our policy on illegal or certain regulated goods and services",
+     "url": "https://help.x.com/en/rules-and-policies/illegal-regulated-behaviors",
+     "prohibits": "Trade in drugs, counterfeit goods, weapons and other regulated items.",
+     "maps_to": [
+      "narcotics",
+      "counterfeit_meds"
+     ]
+    },
+    {
+     "name": "Abuse and Harassment",
+     "url": "https://help.x.com/en/rules-and-policies/abusive-behavior",
+     "prohibits": "Targeted harassment and abusive behaviour.",
+     "maps_to": [
+      "antisemitism",
+      "public_safety_threat"
+     ]
+    },
+    {
+     "name": "Suicide and Self-harm policy",
+     "url": "https://help.x.com/en/rules-and-policies/glorifying-self-harm",
+     "prohibits": "Promotion or encouragement of suicide and self-harm.",
+     "maps_to": [
+      "self_harm_promotion"
+     ]
+    }
+   ]
+  },
+  "snapchat": {
+   "display": "Snapchat",
+   "index": "https://values.snap.com/policy/policy-community-guidelines",
+   "verified": false,
+   "last_verified": null,
+   "note": "URL confirmed today \u2014 the old values.snap.com/privacy/transparency/community-guidelines redirects to /policy/policy-community-guidelines. The guidelines are one continuous page with no per-policy anchors, so the topic labels below are summarised. Confirm wording on the page before a formal referral.",
+   "policies": [
+    {
+     "name": "Terrorism, Violent Extremism, and Hate",
+     "url": "https://values.snap.com/policy/policy-community-guidelines",
+     "prohibits": "Terrorist and violent extremist content, hate speech and hate group activity.",
+     "maps_to": [
+      "isis_terrorism",
+      "domestic_terrorism",
+      "antisemitism",
+      "recruitment",
+      "glorification",
+      "propaganda"
+     ]
+    },
+    {
+     "name": "Illegal or Regulated Activities",
+     "url": "https://values.snap.com/policy/policy-community-guidelines",
+     "prohibits": "Trade in drugs, counterfeit goods and weapons.",
+     "maps_to": [
+      "narcotics",
+      "counterfeit_meds"
+     ]
+    },
+    {
+     "name": "Sexual Content Involving Minors",
+     "url": "https://values.snap.com/policy/policy-community-guidelines",
+     "prohibits": "Any sexual exploitation of minors.",
+     "maps_to": [
+      "child_safety"
+     ]
+    }
+   ]
+  },
+  "telegram": {
+   "display": "Telegram",
+   "index": "https://telegram.org/tos",
+   "verified": false,
+   "last_verified": null,
+   "note": "Telegram's public terms are short. Reporting goes to abuse@telegram.org or the in-app report; ISIS-related channels can be reported to @notoscam / stopCA.",
+   "policies": [
+    {
+     "name": "Terms of Service \u2014 prohibited use",
+     "url": "https://telegram.org/tos",
+     "prohibits": "Public channels may not be used to post illegal pornographic content or to promote violence on publicly viewable channels and bots.",
+     "maps_to": [
+      "isis_terrorism",
+      "domestic_terrorism",
+      "incitement",
+      "child_safety",
+      "glorification"
+     ]
+    }
+   ]
+  },
+  "reddit": {
+   "display": "Reddit",
+   "index": "https://redditinc.com/policies/reddit-rules",
+   "verified": false,
+   "last_verified": null,
+   "note": "URL confirmed today (redditinc.com/policies/content-policy now redirects to /policies/reddit-rules, 8 numbered rules). Rule topic labels below are summarised, not quoted \u2014 open the link to confirm exact wording before a formal referral.",
+   "policies": [
+    {
+     "name": "Rule 1 \u2014 Violence and hate",
+     "url": "https://redditinc.com/policies/reddit-rules",
+     "prohibits": "Communities or content that incite violence or promote hate based on identity or vulnerability.",
+     "maps_to": [
+      "antisemitism",
+      "domestic_terrorism",
+      "incitement",
+      "isis_terrorism"
+     ]
+    },
+    {
+     "name": "Rule 4 \u2014 Minors",
+     "url": "https://redditinc.com/policies/reddit-rules",
+     "prohibits": "Sexual or suggestive content involving minors.",
+     "maps_to": [
+      "child_safety"
+     ]
+    }
+   ]
+  }
+ },
+ "_verification": {
+  "verified_live": [
+   "facebook",
+   "instagram",
+   "threads",
+   "youtube",
+   "x"
+  ],
+  "url_confirmed_only": [
+   "reddit",
+   "snapchat",
+   "telegram"
+  ],
+  "not_verified": [
+   "tiktok"
+  ],
+  "corrections_found": [
+   "Meta renamed 'Hate Speech' to 'Hateful Conduct' (URL slug still hate-speech).",
+   "X policy is titled 'Violent Content Policy', not 'Violent Speech Policy'.",
+   "Reddit content-policy URL now redirects to /policies/reddit-rules.",
+   "Snapchat guidelines moved to values.snap.com/policy/policy-community-guidelines."
+  ]
+ }
+}

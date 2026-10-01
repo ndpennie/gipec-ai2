@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project SPEAR - Executive Intelligence Briefing</title>
+<style>
+:root{--ink:#1d2433;--muted:#5b6678;--blue:#1f5fd6;--navy:#0f2a5c;--line:#d8e0ee;--tint:#eef4ff;--card:#f6f8fc}
+*{box-sizing:border-box}
+html,body{margin:0;background:#e9edf3;color:var(--ink);font:12.5px/1.55 "Helvetica Neue",Helvetica,Arial,sans-serif}
+.bar{position:sticky;top:0;z-index:5;background:#0f2a5c;color:#fff;display:flex;gap:8px;align-items:center;padding:10px 16px;flex-wrap:wrap}
+.bar b{font-size:13px;margin-right:auto}
+.bar button,.bar a{font:600 12.5px Helvetica,Arial,sans-serif;border:0;border-radius:7px;padding:8px 12px;cursor:pointer;text-decoration:none}
+.bar .pri{background:#fff;color:#0f2a5c}.bar .sec{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.3)}
+.bar .st{font-size:12px;opacity:.85}
+.page{background:#fff;width:210mm;min-height:297mm;margin:18px auto;padding:16mm 16mm 18mm;box-shadow:0 4px 18px rgba(15,42,92,.12)}
+.tag{display:inline-block;border:1px solid #b9cdf3;background:var(--tint);color:var(--blue);font:700 9.5px Helvetica,Arial,sans-serif;letter-spacing:2.4px;padding:5px 10px;border-radius:3px}
+h1{font-size:26px;letter-spacing:.3px;margin:10px 0 2px;color:#0b1b3a}
+.sub{color:var(--blue);font-size:13px;margin:0 0 14px}
+.meta{display:grid;grid-template-columns:1fr 1.6fr 1fr 1.6fr;gap:6px 14px;background:var(--card);border:1px solid var(--line);border-radius:4px;padding:11px 14px;margin-bottom:16px}
+.meta .k{font:700 10px Helvetica,Arial,sans-serif;letter-spacing:1.4px;color:var(--muted);text-transform:uppercase}
+.meta .v{font-weight:700;font-size:12px}
+h2{font-size:13.5px;letter-spacing:1.6px;text-transform:uppercase;color:var(--blue);margin:20px 0 8px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+p{margin:0 0 8px;text-align:justify}
+.call{background:var(--tint);border-left:3px solid var(--blue);padding:10px 14px;margin:10px 0 4px;border-radius:0 4px 4px 0}
+.call .h{font:700 10px Helvetica,Arial,sans-serif;letter-spacing:1.6px;color:var(--blue);text-transform:uppercase;margin-bottom:4px}
+.call p{margin:0}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.col{background:var(--card);border:1px solid var(--line);border-radius:4px;padding:10px 12px}
+.col .h{font-weight:700;font-size:12px;border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:6px}
+ul{margin:4px 0 0;padding-left:16px}
+li{margin:0 0 6px}
+li b{color:#0b1b3a}
+.ev{display:grid;grid-template-columns:170px 1fr;gap:14px;align-items:start}
+.ev img{width:100%;max-height:520px;object-fit:contain;border:1px solid var(--line);border-radius:4px}
+.kv{display:grid;grid-template-columns:130px 1fr;gap:4px 10px;font-size:11.5px}
+.kv div:nth-child(odd){color:var(--muted);font-weight:700;font-size:10px;letter-spacing:1px;text-transform:uppercase;padding-top:2px}
+.kv a{color:var(--blue);word-break:break-all}
+.foot{margin-top:18px;padding-top:8px;border-top:1px solid var(--line);display:flex;justify-content:space-between;font:700 9.5px Helvetica,Arial,sans-serif;letter-spacing:1.6px;color:var(--muted)}
+.foot span:last-child{font-weight:400;letter-spacing:0}
+[contenteditable]:hover{outline:1px dashed #b9cdf3;outline-offset:2px}
+[contenteditable]:focus{outline:2px solid var(--blue);outline-offset:2px}
+.msg{max-width:720px;margin:60px auto;background:#fff;border-radius:10px;padding:28px;text-align:center;box-shadow:0 4px 18px rgba(15,42,92,.12)}
+.spin{display:inline-block;width:16px;height:16px;border:2px solid #b9cdf3;border-top-color:var(--blue);border-radius:50%;animation:s 1s linear infinite;vertical-align:-3px;margin-right:6px}
+@keyframes s{to{transform:rotate(360deg)}}
+.pb{break-before:page}
+/* PDF download: an off-screen copy of one report laid out at A4 text width */
+.page.pdfpage{width:auto!important;min-height:0!important;margin:0!important;padding:0!important;box-shadow:none!important}
+.pdfpage .foot,.pdfpage .noprint{display:none!important}
+.sec4{break-inside:avoid}
+.pdfpage .ev img{max-height:390px;width:auto;max-width:100%}
+.pdfpage .desc img{max-height:330px;width:auto;max-width:100%}
+@page{size:A4;margin:14mm 14mm 16mm;
+  @bottom-left{content:"PROJECT SPEAR // EXECUTIVE INTELLIGENCE BRIEF";font:700 8px Helvetica,Arial,sans-serif;letter-spacing:1.5px;color:#5b6678}
+  @bottom-right{content:"Page " counter(page) " of " counter(pages);font:8px Helvetica,Arial,sans-serif;color:#5b6678}}
+@media print{
+  html,body{background:#fff}
+  .bar,.noprint{display:none!important}
+  .page{box-shadow:none;margin:0;padding:0;width:auto;min-height:0}
+  .foot{display:none}
+  [contenteditable]:hover,[contenteditable]:focus{outline:none}
+  h2,.call,.col,.ev{break-inside:avoid}
+  h2{break-after:avoid}
+  .ev img{max-height:105mm;width:auto;max-width:100%}
+}
+@media screen and (max-width:840px){.page{width:auto;margin:10px;padding:18px}.meta{grid-template-columns:1fr 1.6fr}.cols,.ev{grid-template-columns:1fr}}
+
+/* Part 1 - analyst assessment (question & answer) */
+.q{display:flex;gap:10px;align-items:baseline;margin:22px 0 8px;padding-bottom:6px;border-bottom:1px solid var(--line);break-after:avoid}
+.q .n{flex:0 0 auto;font:800 10px Helvetica,Arial,sans-serif;letter-spacing:1.5px;color:#fff;background:var(--navy);border-radius:3px;padding:3px 7px}
+.q h3{margin:0;font-size:15px;color:#0b1b3a}
+.ans{font-weight:700;font-size:13.5px;margin:4px 0 8px}
+.ans.yes{color:#b3261e}.ans.no{color:#2f855a}.ans.bl{color:#b7791f}
+.lbl{font:700 10px Helvetica,Arial,sans-serif;letter-spacing:1.5px;text-transform:uppercase;color:var(--blue);margin:12px 0 4px}
+.desc{display:grid;grid-template-columns:1fr 150px;gap:16px;align-items:start}
+.desc img{width:100%;border:1px solid var(--line);border-radius:4px}
+.num{margin:10px 0 4px;font-weight:700;color:#0b1b3a}
+.part{font:800 10.5px Helvetica,Arial,sans-serif;letter-spacing:2.2px;color:var(--muted);text-transform:uppercase;margin:0 0 4px}
+.view{display:flex;gap:4px;background:rgba(255,255,255,.1);border-radius:8px;padding:3px}
+.view button{background:transparent!important;color:#fff!important;padding:6px 10px!important}
+.view button.on{background:#fff!important;color:#0f2a5c!important}
+body.only-brief .p1{display:none}body.only-assess .p2{display:none}
+@media print{.desc img{max-height:90mm;width:auto;max-width:100%}.q{break-after:avoid}}
+@media screen and (max-width:840px){.desc{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="bar">
+  <b>Analyst Assessment &amp; Intelligence Brief</b>
+  <span class="st" id="st"></span>
+  <span class="view"><button data-v="full" class="on">Full engagement</button><button data-v="assess">Assessment</button><button data-v="brief">Brief only</button></span>
+  <button class="sec" id="regen">↻ Rewrite with AI</button>
+  <button class="pri" id="dlA">⭳ Assessment PDF</button>
+  <button class="pri" id="dlB">⭳ Intelligence Brief PDF</button>
+  <button class="sec" onclick="window.print()" title="Print either report">🖨 Print</button>
+  <a class="sec" href="./">✕ Close</a>
+</div>
+<div id="root"><div class="msg"><span class="spin"></span>Loading the case…</div></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+/* Reads the case from this browser's shared queue (spear_items), asks the Project Spear backend
+   (POST /api/brief, server-held AI key) to write it, and lays it out the way the senior analyst
+   engages on a post:
+     Part 1  Analyst assessment - describe it / is it hateful / why the platform's AI missed it /
+             could GIPECAI have caught it / key findings
+     Part 2  Executive Intelligence Brief (his two-page format) + evidence record
+   Every block can be edited in place; edits are kept with the case in this browser. */
+const BACKEND_DEFAULT='https://project-spear-backend.onrender.com';
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let API=BACKEND_DEFAULT,KEY='';
+try{
+  const u=new URLSearchParams(location.search);
+  const k=(u.get('key')||'').trim(); if(k)localStorage.setItem('spear_key',k);
+  API=(localStorage.getItem('spear_api')||BACKEND_DEFAULT).replace(/\/$/,'');
+  KEY=localStorage.getItem('spear_key')||'';
+}catch(e){}
+const ID=new URLSearchParams(location.search).get('id');
+function items(){try{const a=JSON.parse(localStorage.getItem('spear_items')||'[]');return Array.isArray(a)?a:[]}catch(e){return []}}
+function mutate(fn){try{const a=items();const it=a.find(x=>String(x.id)===String(ID));if(!it)return;fn(it);localStorage.setItem('spear_items',JSON.stringify(a))}catch(e){}}
+let IT=items().find(x=>String(x.id)===String(ID));
+
+function acct(it){
+  let p=String(it.poster||'').trim();
+  if(!p||/^unknown/i.test(p)){const m=String(it.url||'').match(/(?:instagram|facebook|tiktok|x|twitter)\.com\/([A-Za-z0-9._]+)/i);if(m&&!/^(p|reel|reels|stories|watch|share)$/i.test(m[1]))p=m[1];}
+  if(!p||/^unknown/i.test(p))return 'Not recorded';
+  return p.startsWith('@')?p:'@'+p;
+}
+function platform(it){
+  const u=String(it.url||'').toLowerCase(),p=String(it.platform||'');
+  if(/instagram/.test(u+p.toLowerCase()))return 'Instagram';if(/facebook|fb\./.test(u+p.toLowerCase()))return 'Facebook';
+  if(/tiktok/.test(u))return 'TikTok';if(/(^|\.)x\.com|twitter/.test(u))return 'X';if(/telegram|t\.me/.test(u))return 'Telegram';
+  return p&&p!=='upload'?p.charAt(0).toUpperCase()+p.slice(1):'Social media capture';
+}
+function bPlat(b){const p=platform(IT);return /capture/i.test(p)&&b&&b.platform?b.platform:p}
+function bAcct(b){const a=acct(IT);return a==='Not recorded'&&b&&b.account_handle?(String(b.account_handle).startsWith('@')?b.account_handle:'@'+b.account_handle):a}
+function month(){return new Date().toLocaleString('en-US',{month:'long',year:'numeric'})}
+function author(){try{return localStorage.getItem('spear_author')||'Eric Feinberg'}catch(e){return 'Eric Feinberg'}}
+
+async function write(force){
+  if(!IT){$('root').innerHTML='<div class="msg"><b>Case not found in this browser.</b><br>Open this from a case in the Project Spear dashboard on the computer where the case was captured.<br><br><a href="./">Back to the dashboard</a></div>';return}
+  const b0=IT.brief;
+  if(b0&&!force&&(b0.assessment||b0.edits)){render(b0);return}
+  if(!KEY){$('root').innerHTML='<div class="msg"><b>This browser isn’t connected to the Project Spear server yet.</b><br>Open your Project Spear setup link once on this computer, then reopen this page.</div>';return}
+  $('root').innerHTML='<div class="msg"><span class="spin"></span>Writing the analyst assessment and intelligence brief… this takes about 30–60 seconds.</div>';$('st').textContent='';
+  const csam=IT.category==='child_safety';
+  const body={
+    image:csam?'':(IT.media||IT.thumb||''),platform:platform(IT),account:acct(IT),
+    url:/^https?:/.test(IT.url||'')?IT.url:'',captured:IT.captured||'',
+    post_text:[IT.caption,IT.ocr].filter(Boolean).join('\n').slice(0,3000),
+    audio:(IT.audio&&IT.audio.description)||IT.audioTag||'',
+    ai_read:[IT.visionDesc,IT.reasoning].filter(Boolean).join('\n').slice(0,2500),
+    category:String(IT.category||''),score:Number(IT.score)||0,
+    indicators:[...new Set([...(IT.indicators||[]),...(IT.labels||[])])].slice(0,30),
+    analyst_notes:IT.notes||'',author:author()};
+  let lastErr='';
+  for(let attempt=0;attempt<5;attempt++){
+    try{
+      const r=await fetch(API+'/api/brief',{method:'POST',headers:{'Content-Type':'application/json','X-Spear-Key':KEY},body:JSON.stringify(body)});
+      if(r.status===401){lastErr='This browser’s connection key was refused — open your Project Spear setup link again.';break}
+      if(r.ok){const j=await r.json();const b=j.brief;b.written=new Date().toISOString();mutate(x=>{x.brief=b});IT.brief=b;render(b);return}
+      let d='';try{d=(await r.json()).detail||''}catch(e){}
+      lastErr='The AI did not finish ('+r.status+(d?': '+String(d).slice(0,160):'')+').';
+      if(r.status===404){lastErr='The brief writer is not on the server yet (it is being deployed). Try again in a few minutes.';break}
+    }catch(e){lastErr='Could not reach the Project Spear server — it may be waking up.';}
+    if(/high demand|UNAVAILABLE|overloaded|503/i.test(lastErr))$('root').innerHTML='<div class="msg"><span class="spin"></span>Google’s AI is busy right now — trying again (attempt '+(attempt+2)+' of 5)…</div>';
+    await new Promise(res=>setTimeout(res,[5000,12000,20000,30000][attempt]||30000));
+  }
+  if(b0){render(b0);$('st').textContent=lastErr;return}
+  $('root').innerHTML='<div class="msg"><b>'+esc(lastErr)+'</b><br><br><button onclick="write(true)" style="font:600 13px Helvetica;padding:9px 14px;border-radius:7px;border:0;background:#1f5fd6;color:#fff;cursor:pointer">Try again</button></div>';
+}
+
+let B={};
+/* editable block: generated html unless the analyst has edited it */
+function E(k,html,tag,cls){const ed=B.edits&&B.edits[k];return `<${tag||'div'}${cls?' class="'+cls+'"':''} contenteditable="true" data-k="${k}">${ed!=null?ed:html}</${tag||'div'}>`}
+function ul(arr,key){return '<ul>'+(arr||[]).map(x=>`<li><b>${esc(x.label||x.title||x.stage||'')}:</b> ${esc(x.text||'')}</li>`).join('')+'</ul>'}
+function ansCls(v){v=String(v||'').toLowerCase();return v.startsWith('yes')?'yes':v.startsWith('no')?'no':'bl'}
+
+function part1(b){
+  const a=b.assessment;const it=IT,csam=it.category==='child_safety';
+  const img=(!csam&&(it.media||it.thumb))||'';
+  if(!a)return `<div class="page p1"><p class="part">Part 1 · Analyst assessment</p><div class="call"><p>This case was written before the full assessment was added. Press <b>↻ Rewrite with AI</b> to write it.</p></div></div>`;
+  const missed=(a.missed||[]).map((m,i)=>`<div class="num">${i+1}. ${esc(m.title||'')}</div><ul>${(m.points||[]).map(p=>`<li>${esc(p)}</li>`).join('')}</ul>`).join('');
+  return `<div class="page p1">
+  <span class="tag">RESTRICTED // ANALYST ASSESSMENT</span>
+  <h1>PROJECT SPEAR</h1>
+  <p class="sub">Analyst Assessment — ${esc(bAcct(b))} (${esc(bPlat(b))}${b.content_type?' · '+esc(b.content_type):''})</p>
+
+  <div class="q"><span class="n">Q1</span><h3>Can you describe this photo?</h3></div>
+  <div class="desc"><div>
+    ${E('a_intro',esc(a.describe_intro||''),'p')}
+    <div class="lbl">Social Media Feed Metadata</div>${E('a_meta',ul(a.metadata))}
+    <div class="lbl">Visual Imagery &amp; Caricature</div>${E('a_visual',ul(a.visual))}
+  </div>${img?`<img src="${img}" alt="Captured post">`:''}</div>
+  <div class="lbl">Ideological Context &amp; Subcultural Tropes</div>${E('a_context',ul(a.context))}
+
+  <div class="q"><span class="n">Q2</span>${E('a_vq',esc(a.verdict_question||'Is it a violation?'),'h3')}</div>
+  ${E('a_verdict',esc(a.verdict_summary||a.verdict||''),'p','ans '+ansCls(a.verdict))}
+  <div class="lbl">Key Indicators</div>${E('a_ind',ul(a.indicators))}
+
+  <div class="q"><span class="n">Q3</span>${E('a_mq',esc(a.missed_question||'Why did the platform’s AI not catch it?'),'h3')}</div>
+  ${E('a_mintro',esc(a.missed_intro||''),'p')}
+  ${E('a_missed',missed)}
+
+  <div class="q"><span class="n">Q4</span>${E('a_cq',esc(a.capture_question||'Could GIPECAI Project Spear have captured it?'),'h3')}</div>
+  ${E('a_cans',esc(a.capture_answer||''),'p','ans yes')}
+  ${E('a_cintro',esc(a.capture_intro||''),'p')}
+  <div class="lbl">Key Detection Vectors</div>${E('a_vec',ul(a.vectors))}
+
+  <div class="q"><span class="n">★</span><h3>Briefing Overview &amp; Key Findings</h3></div>
+  ${E('a_find',ul(a.findings))}
+  </div>`;
+}
+
+function part2(b){
+  const it=IT,csam=it.category==='child_safety';
+  const url=/^https?:/.test(it.url||'')?it.url:'';
+  const img=(!csam&&(it.media||it.thumb))||'';
+  return `<div class="page p2 pb">
+  <span class="tag">RESTRICTED // EXECUTIVE INTELLIGENCE BRIEF</span>
+  <h1>PROJECT SPEAR</h1>
+  ${E('subtitle',esc(b.subtitle||'Threat Assessment & GIPECAI Detection Pipeline'),'p','sub')}
+  <div class="meta">
+    <div class="k">Framework:</div><div class="v">GIPECAI / SPEAR</div>
+    <div class="k">Author:</div>${E('author',esc(b.author||author()),'div','v')}
+    <div class="k">Target account:</div>${E('account',esc(bAcct(b)+' ('+bPlat(b)+')'),'div','v')}
+    <div class="k">Date:</div>${E('date',esc(month()),'div','v')}
+  </div>
+  <h2>1. Incident Overview &amp; Threat Identification</h2>
+  ${E('overview',esc(b.overview),'p')}
+  <div class="call"><div class="h">Core Finding &amp; Policy Breach</div>${E('core_finding',esc(b.core_finding),'p')}</div>
+  <h2>2. Technical Moderation Blind Spots &amp; Evasion Tactics</h2>
+  <div class="cols">
+    <div class="col">${E('left_title',esc(b.left_title||'Computer Vision & Slang Limits'),'div','h')}${E('left',ul(b.left))}</div>
+    <div class="col">${E('right_title',esc(b.right_title||'Audio & Hashtag Masking'),'div','h')}${E('right',ul(b.right))}</div>
+  </div>
+  <h2>3. The GIPECAI Detection &amp; Capture Architecture</h2>
+  ${E('pipeline_intro',esc(b.pipeline_intro||'The GIPEC AI² Anticipatory Intelligence pipeline flags this asset through a multimodal analysis:'),'p')}
+  ${E('pipeline',ul(b.pipeline))}
+  <div class="call" style="margin-top:14px"><div class="h">Enforcement &amp; Platform Duty of Care</div>${E('enforcement',esc(b.enforcement),'p')}</div>
+  <div class="sec4"><h2>4. Evidence &amp; Submission Record</h2>
+  <div class="ev">
+    ${img?`<img src="${img}" alt="Captured post">`:`<div class="call" style="margin:0"><p>${csam?'Image withheld — routed to NCMEC.':'No image on file for this case.'}</p></div>`}
+    <div class="kv">
+      <div>Case</div><div>SP-${String(it.id).padStart(4,'0')}</div>
+      <div>Platform</div><div>${esc(bPlat(b))}${b.content_type?' · '+esc(b.content_type):''}</div>
+      <div>Account</div><div>${esc(bAcct(b))}</div>
+      <div>Link</div><div>${url?`<a href="${esc(url)}">${esc(url)}</a>`:'Captured by screenshot'}</div>
+      <div>Captured</div><div>${esc(it.captured||'—')}</div>
+      <div>Policies</div><div>${esc((b.policies||[]).join(', ')||'—')}</div>
+      <div>AI risk score</div><div>${esc(b.risk_score!=null?b.risk_score:it.score)}/10 · ${esc(b.category||String(it.category||'').replace(/_/g,' '))}</div>
+      <div>Recommended</div>${E('recommended_action',esc(b.recommended_action||''))}
+      <div>Analyst review</div><div>${esc(it.status==='Confirmed'?'Confirmed by analyst':it.status==='Escalated'?'Escalated to specialist':it.status||'Pending')}${it.reportedAt?' · reported to platform '+esc(new Date(it.reportedAt).toLocaleDateString()):''}</div>
+    </div>
+  </div></div>
+  <p class="noprint" style="margin-top:14px;color:#5b6678;font-size:11px">Click any paragraph to edit it before printing. Edits are saved with the case.</p>
+  <div class="foot"><span>PROJECT SPEAR // EXECUTIVE INTELLIGENCE BRIEF</span><span>© ${new Date().getFullYear()} GIPEC AI². Patent Pending. Confidential.</span></div>
+  </div>`;
+}
+
+function render(b){
+  B=b;
+  $('root').innerHTML=part1(b)+part2(b);
+  document.querySelectorAll('[contenteditable]').forEach(el=>el.addEventListener('blur',save));
+  $('st').textContent=b.edited?'Edited '+new Date(b.edited).toLocaleString():(b.written?'Written '+new Date(b.written).toLocaleString():'');
+  document.title='Project SPEAR - Analyst Assessment & Intelligence Brief - '+bAcct(b);
+}
+function save(e){
+  const el=e.target,k=el.dataset.k;const b=Object.assign({},IT.brief||{});
+  b.edits=Object.assign({},b.edits||{});b.edits[k]=el.innerHTML;b.edited=new Date().toISOString();
+  IT.brief=b;B=b;mutate(x=>{x.brief=b});$('st').textContent='Saved '+new Date().toLocaleTimeString();
+}
+let armed=false;
+$('regen').onclick=()=>{if(!IT)return;
+  if(IT.brief&&IT.brief.edits&&!armed){armed=true;$('st').textContent='Press “Rewrite with AI” again to replace your edits';return}
+  armed=false;write(true)};
+document.querySelectorAll('.view button').forEach(btn=>btn.onclick=()=>{
+  document.querySelectorAll('.view button').forEach(x=>x.classList.toggle('on',x===btn));
+  document.body.classList.toggle('only-brief',btn.dataset.v==='brief');document.body.classList.toggle('only-assess',btn.dataset.v==='assess');
+  const p2=document.querySelector('.p2');if(p2)p2.classList.toggle('pb',btn.dataset.v!=='brief');
+});
+/* Each report downloads as its own PDF file, named for the case. */
+function fname(kind){const a=bAcct(B).replace(/^@/,'').replace(/[^A-Za-z0-9._-]+/g,'_')||'case';
+  return `SP-${String(IT.id).padStart(4,'0')}_${a}_${kind}_${new Date().toISOString().slice(0,10)}.pdf`}
+async function downloadPdf(which){
+  if(!IT||!B||!document.querySelector('.p2')){return}
+  if(typeof html2pdf!=='function'){$('st').textContent='PDF tool did not load — use Print, then “Save as PDF”';return}
+  const src=document.querySelector(which==='assess'?'.p1':'.p2');if(!src)return;
+  const btn=$(which==='assess'?'dlA':'dlB'),label=btn.textContent;btn.disabled=true;btn.textContent='⏳ Making PDF…';
+  const clone=src.cloneNode(true);clone.classList.remove('pb');clone.classList.add('pdfpage');
+  clone.querySelectorAll('[contenteditable]').forEach(e=>e.removeAttribute('contenteditable'));
+  const au=(src.querySelector('[data-k=author]')||{}).textContent||B.author||author();
+  const title=which==='assess'?'PROJECT SPEAR // ANALYST ASSESSMENT':'PROJECT SPEAR // EXECUTIVE INTELLIGENCE BRIEF';
+  try{
+    await html2pdf().set({
+      margin:[14,14,16,14],filename:fname(which==='assess'?'Analyst_Assessment':'Intelligence_Brief'),
+      image:{type:'jpeg',quality:0.95},html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff'},
+      jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},
+      pagebreak:{mode:['css','legacy'],avoid:['.sec4','h2','.q','.call','.col','li','.ev','.meta','.num','.lbl']}
+    }).from(clone).toPdf().get('pdf').then(pdf=>{
+      const n=pdf.internal.getNumberOfPages();
+      for(let i=1;i<=n;i++){pdf.setPage(i);pdf.setFont('helvetica','bold');pdf.setFontSize(7);pdf.setTextColor(91,102,120);
+        pdf.text(title,14,289);pdf.setFont('helvetica','normal');pdf.text('Page '+i+' of '+n,196,289,{align:'right'});}
+      pdf.setProperties({title:'Project SPEAR - '+(which==='assess'?'Analyst Assessment':'Executive Intelligence Briefing')+' - '+bAcct(B),author:au,subject:'GIPEC AI² Project Spear',creator:'Project Spear'});
+    }).save();
+    $('st').textContent='Downloaded '+fname(which==='assess'?'Analyst_Assessment':'Intelligence_Brief');
+  }catch(e){$('st').textContent='Could not make the PDF — use Print, then “Save as PDF”';}
+  btn.disabled=false;btn.textContent=label;
+}
+$('dlA').onclick=()=>downloadPdf('assess');$('dlB').onclick=()=>downloadPdf('brief');
+write(false).then(()=>{const d=new URLSearchParams(location.search).get('download');if(d&&IT&&IT.brief)downloadPdf(d==='assessment'?'assess':'brief')});
+</script>
+</body>
+</html>

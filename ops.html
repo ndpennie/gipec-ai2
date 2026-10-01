@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+/* Phone "Share to Project Spear" lands here (manifest share_target) -> hand it to the analysis workspace. */
+(function(){try{var u=new URLSearchParams(location.search);if(u.has('share_url')||u.has('share_text')||u.has('share_title')){location.replace('./'+location.search);}}catch(e){}})();
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project Spear — Operational Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0f2a5c; --navy2:#16357a; --blue:#1f5fd6; --blue2:#2a6ff0; --ink:#1b2433; --muted:#6b7688; --line:#e4e8ef;
+  --bg:#f4f6fa; --card:#fff; --green:#1f9d55; --green-bg:#e8f7ee; --red:#d23c3c; --red-bg:#fdecec; --amber:#f2b01e;
+  --amber-bg:#fff6dc; --pink:#e0457b; --pink-bg:#fde8f0; --orange:#e8871e; --orange-bg:#fff1e0; --teal-bg:#e6f6f1; --teal:#16866a;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-size:14px}
+a{color:var(--blue)}
+.app{display:flex;min-height:100vh}
+/* ---------- sidebar ---------- */
+.side{width:232px;flex:0 0 232px;background:#f7f8fb;border-right:1px solid var(--line);padding:18px 14px;position:sticky;top:0;height:100vh;overflow:auto}
+.brand{font-weight:800;font-size:17px;color:var(--navy);letter-spacing:.2px}
+.brand small{display:block;font:600 9.5px/1.4 'JetBrains Mono',monospace;color:var(--muted);letter-spacing:1.2px;margin-top:2px}
+.grp{font:600 9.5px 'JetBrains Mono',monospace;color:#9aa3b2;letter-spacing:1.2px;margin:20px 6px 6px;text-transform:uppercase}
+.nav{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:8px;color:#3a4558;text-decoration:none;font-size:13px;cursor:pointer;margin:1px 0}
+.nav:hover{background:#eaeef6}
+.nav.on{background:#fff;box-shadow:0 1px 3px rgba(15,42,92,.12);color:var(--blue);font-weight:600}
+.nav .ic{width:16px;text-align:center;opacity:.75}
+.nav .ct{margin-left:auto;font:600 11px 'JetBrains Mono',monospace;color:var(--muted)}
+.side .foot{margin-top:24px;font-size:11px;color:var(--muted);line-height:1.5;padding:0 6px}
+/* ---------- main ---------- */
+.main{flex:1;min-width:0;padding:22px 26px 90px}
+.banner{background:linear-gradient(120deg,#1a4fb8 0%,#123a8a 55%,#0b2560 100%);color:#fff;border-radius:14px;padding:20px 24px;display:flex;align-items:center;gap:16px;box-shadow:0 6px 18px rgba(15,42,92,.18)}
+.banner h1{margin:0;font-size:20px;font-weight:700}
+.banner p{margin:4px 0 0;font-size:12.5px;opacity:.85}
+.banner .sp{flex:1}
+.chip{font:600 11px 'JetBrains Mono',monospace;padding:6px 10px;border-radius:7px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);white-space:nowrap}
+.live{display:inline-flex;align-items:center;gap:6px}
+.dot{width:8px;height:8px;border-radius:50%;background:#9aa3b2;display:inline-block}
+.dot.ok{background:#35d07f;box-shadow:0 0 0 3px rgba(53,208,127,.25)}
+.dot.bad{background:#ff6b6b}
+.warn{margin:14px 0 0;background:var(--amber-bg);border:1px solid #f1d58a;color:#6b4e00;border-radius:10px;padding:10px 14px;font-size:13px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:18px 0}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.kpi .l{font-size:12px;color:var(--muted)}
+.kpi .v{font-size:28px;font-weight:700;margin:6px 0 2px;letter-spacing:-.5px}
+.kpi .v small{font-size:13px;font-weight:600;color:var(--muted);margin-left:3px}
+.kpi .d{font:500 11px 'JetBrains Mono',monospace;color:var(--muted)}
+.kpi .d.up{color:#c07a00}.kpi .d.good{color:var(--green)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px}
+.qhead{display:flex;align-items:center;gap:10px;padding:14px 16px;flex-wrap:wrap}
+.qhead h2{margin:0;font-size:14px;font-weight:700}
+.qhead .n{font:500 12px 'JetBrains Mono',monospace;color:var(--muted)}
+.qhead .sp{flex:1}
+select,input[type=text],textarea{font:inherit;border:1px solid var(--line);border-radius:8px;padding:7px 10px;background:#fff;color:var(--ink)}
+.btn{font:600 12px Inter,sans-serif;border-radius:7px;padding:7px 12px;border:1px solid transparent;cursor:pointer;white-space:nowrap}
+.btn.pri{background:var(--blue2);color:#fff}
+.btn.pri:hover{background:var(--blue)}
+.btn.ghost{background:#fff;border-color:#c9d6f3;color:var(--blue)}
+.btn.ghost:hover{background:#f1f5ff}
+.btn[disabled]{opacity:.5;cursor:default}
+.tw{overflow:auto}
+table{width:100%;border-collapse:separate;border-spacing:0;min-width:1080px}
+thead th{background:var(--navy);color:#fff;font:600 11px 'JetBrains Mono',monospace;text-align:left;padding:10px 10px;letter-spacing:.3px;position:sticky;top:0}
+thead th:first-child{border-top-left-radius:8px}thead th:last-child{border-top-right-radius:8px}
+tbody td{padding:11px 10px;border-bottom:1px solid var(--line);vertical-align:middle;font-size:12.5px}
+tbody tr:hover{background:#fafbfe}
+.mono{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#3a4558;white-space:nowrap}
+.pill{display:inline-block;font:600 10.5px 'JetBrains Mono',monospace;padding:3px 8px;border-radius:5px;white-space:nowrap}
+.t-Terrorism{background:var(--red-bg);color:#b3261e}
+.t-Hate{background:var(--pink-bg);color:#c2185b}
+.t-Extremism{background:var(--teal-bg);color:var(--teal)}
+.t-Dangerous{background:var(--orange-bg);color:#b85f00}
+.t-Other{background:#eef1f6;color:#4a5568}
+/* risk-tier colour coding - identical to the analysis workspace */
+.tier{-webkit-print-color-adjust:exact;print-color-adjust:exact;display:inline-flex;align-items:center;gap:6px;font:700 10.5px 'JetBrains Mono',monospace;padding:3px 8px;border-radius:5px;white-space:nowrap;color:#fff}
+.tier b{font-weight:800}
+.tr-CRITICAL{background:#B42318}.tr-HIGH{background:#D9480F}.tr-MEDIUM{background:#B7791F}.tr-LOW{background:#2F855A}.tr-MINIMAL{background:#5A6472}
+tbody tr td:first-child{box-shadow:inset 4px 0 0 var(--tc,#d7dde8)}
+tbody tr.x-CRITICAL{--tc:#B42318;background:#fff7f6}tbody tr.x-HIGH{--tc:#D9480F;background:#fffaf5}tbody tr.x-MEDIUM{--tc:#B7791F}tbody tr.x-LOW{--tc:#2F855A}tbody tr.x-MINIMAL{--tc:#5A6472}
+tbody tr.x-CRITICAL:hover{background:#ffeeec}tbody tr.x-HIGH:hover{background:#fff1e6}
+.tiers{display:flex;align-items:center;gap:14px;padding:12px 16px;margin:0 0 14px;flex-wrap:wrap}
+.tiers h3{margin:0;font-size:13px;font-weight:700;white-space:nowrap}
+.tbar{flex:1;min-width:220px;display:flex;height:26px;border-radius:7px;overflow:hidden;background:#eef1f6}
+.tbar span{display:flex;align-items:center;justify-content:center;color:#fff;font:700 11px 'JetBrains Mono',monospace;min-width:0;cursor:pointer}
+.tleg{display:flex;gap:6px;flex-wrap:wrap}
+.tleg button{border:1px solid var(--line);background:#fff;border-radius:6px;padding:4px 8px;font:600 11px 'JetBrains Mono',monospace;cursor:pointer;display:inline-flex;align-items:center;gap:5px;color:#3a4558}
+.tleg button i{width:10px;height:10px;border-radius:2px;display:inline-block}
+.tleg button.on{border-color:#1a4fb8;box-shadow:0 0 0 2px rgba(26,79,184,.15)}
+.nav.ext .ic{opacity:.9}
+.upl{font:700 13px Inter,sans-serif;text-decoration:none;color:#0b2560;background:#fff;border-radius:9px;padding:10px 14px;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+.upl:hover{background:#eef3ff}
+.upl.ghost{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.35);box-shadow:none}
+.upl.ghost:hover{background:rgba(255,255,255,.22)}
+.tr-UNCHECKED{background:#8a94a6}
+.nav .go{margin-left:auto;font-size:11px;color:#9aa3b2}
+.plat{white-space:nowrap}
+.plat i{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px;vertical-align:1px}
+.rec{max-width:320px;text-align:center;line-height:1.35;color:#2b3445}
+.conf{font:600 12px 'JetBrains Mono',monospace}
+.sla{font:500 10.5px 'JetBrains Mono',monospace;padding:3px 8px;border-radius:999px;background:#eef1f6;color:#5a6472;white-space:nowrap}
+.sla.over{background:var(--red-bg);color:var(--red)}
+.sla.done{background:var(--green-bg);color:var(--green)}
+.sla.esc{background:var(--amber-bg);color:#8a6100}
+.sla.rej{background:#f1f2f5;color:#6b7688}
+.dec{display:flex;gap:5px}
+.b-ok{background:var(--green);color:#fff}
+.b-no{background:#fff;border-color:#f0a9a9;color:var(--red)}
+.b-esc{background:var(--amber);color:#3d2a00}
+.b-sm{padding:5px 9px;font-size:11px}
+.lnk{background:#fff;border:1px solid #cfdcf6;color:var(--blue);padding:5px 9px;font-size:11px}
+.empty{padding:36px 20px;text-align:center;color:var(--muted)}
+.empty b{color:var(--ink)}
+.netfx{margin-top:16px;background:var(--navy);color:#fff;border-radius:10px;padding:14px 18px;font-size:14px}
+.netfx b{color:#ffc93c;margin-right:6px}
+.foot2{display:flex;justify-content:space-between;color:#8a93a3;font-size:12px;margin-top:18px;flex-wrap:wrap;gap:8px}
+/* ---------- panels ---------- */
+.view{display:none}.view.on{display:block}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+.panel h3{margin:0 0 12px;font-size:14px}
+.bar{display:flex;align-items:center;gap:10px;margin:7px 0;font-size:12.5px}
+.bar .lab{width:170px;flex:0 0 170px;color:#3a4558;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar .trk{flex:1;background:#eef1f6;border-radius:5px;height:12px;overflow:hidden}
+.bar .fil{height:100%;background:linear-gradient(90deg,#2a6ff0,#1a4fb8);border-radius:5px}
+.bar .num{width:52px;text-align:right;font:600 12px 'JetBrains Mono',monospace}
+.cols{display:flex;align-items:flex-end;gap:10px;height:160px;padding:8px 4px 0;border-bottom:1px solid var(--line)}
+.col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+.col .cb{width:100%;max-width:46px;background:linear-gradient(180deg,#2a6ff0,#123a8a);border-radius:5px 5px 0 0}
+.col .cv{font:600 11px 'JetBrains Mono',monospace;margin-bottom:4px}
+.colx{display:flex;gap:10px;padding:6px 4px 0}
+.colx span{flex:1;text-align:center;font:500 10.5px 'JetBrains Mono',monospace;color:var(--muted)}
+.note{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.tag{background:#eef3ff;border:1px solid #cfdcf6;color:var(--navy);border-radius:999px;padding:4px 10px;font-size:12px;cursor:pointer}
+.tag.off{background:#fff;color:#8a93a3;border-color:var(--line);text-decoration:line-through}
+.prog{font:500 12px 'JetBrains Mono',monospace;color:#3a4558;background:#f7f8fb;border:1px solid var(--line);border-radius:8px;padding:10px;max-height:220px;overflow:auto;white-space:pre-wrap;margin-top:10px}
+/* ---------- drawer / modal ---------- */
+.shade{position:fixed;inset:0;background:rgba(10,20,40,.35);display:none;z-index:40}
+.shade.on{display:block}
+.drawer{position:fixed;top:0;right:0;height:100vh;width:min(560px,100%);background:#fff;z-index:41;box-shadow:-8px 0 30px rgba(0,0,0,.15);transform:translateX(105%);transition:transform .2s;display:flex;flex-direction:column}
+.drawer.on{transform:none}
+.dh{padding:16px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
+.dh h3{margin:0;font-size:16px}
+.dh .x{margin-left:auto;background:none;border:none;font-size:22px;cursor:pointer;color:var(--muted)}
+.db{padding:16px 20px;overflow:auto;flex:1}
+.kv{display:grid;grid-template-columns:130px 1fr;gap:8px 12px;font-size:13px;margin-bottom:14px}
+.kv div:nth-child(odd){color:var(--muted)}
+.kv a{word-break:break-all}
+.sec{margin:14px 0 6px;font:600 11px 'JetBrains Mono',monospace;color:var(--muted);letter-spacing:.8px;text-transform:uppercase}
+.box{background:#f7f8fb;border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-size:13px;line-height:1.5}
+.df{padding:14px 20px;border-top:1px solid var(--line);display:flex;gap:8px;flex-wrap:wrap}
+.report{font-family:Inter,sans-serif}
+.report h2{margin:0 0 2px;color:var(--navy)}
+.report .rsub{color:var(--muted);font-size:12px;margin-bottom:14px}
+.report table{min-width:0}
+.report td{border-bottom:1px solid var(--line);padding:7px 8px;font-size:13px;vertical-align:top}
+.report td:first-child{width:170px;color:var(--muted)}
+/* ---------- SAGE ---------- */
+.sagebtn{position:fixed;right:26px;bottom:26px;z-index:30;background:var(--navy);color:#fff;border:none;border-radius:999px;padding:12px 18px;font:700 13px Inter,sans-serif;box-shadow:0 8px 20px rgba(15,42,92,.35);cursor:pointer}
+.sage{position:fixed;right:26px;bottom:84px;width:min(380px,calc(100% - 32px));background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 12px 36px rgba(15,42,92,.25);z-index:31;display:none;flex-direction:column;max-height:70vh}
+.sage.on{display:flex}
+.sage .sh{background:var(--navy);color:#fff;border-radius:14px 14px 0 0;padding:12px 14px;font-weight:700}
+.sage .sh small{display:block;font-weight:400;opacity:.8;font-size:11.5px}
+.sage .sm{padding:12px 14px;overflow:auto;flex:1;font-size:13px;line-height:1.5}
+.sage .q{color:var(--blue);font-weight:600;margin-top:8px}
+.sage .a{margin:4px 0 8px}
+.sage form{display:flex;gap:6px;padding:10px;border-top:1px solid var(--line)}
+.sage input{flex:1}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#1b2433;color:#fff;padding:10px 16px;border-radius:9px;font-size:13px;z-index:60;opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.on{opacity:1}
+@media (max-width:900px){
+  .app{display:block}
+  .side{position:static;width:auto;height:auto;display:flex;flex-wrap:wrap;gap:4px;padding:12px}
+  .side .grp,.side .foot{display:none}
+  .brand{width:100%;margin-bottom:6px}
+  .nav{padding:6px 9px;font-size:12px;background:#fff;border:1px solid var(--line)}
+  .main{padding:14px 12px 90px}
+  .kpis{grid-template-columns:1fr 1fr}
+  .grid2{grid-template-columns:1fr}
+  .bar .lab{width:120px;flex-basis:120px}
+}
+@media print{
+  .side,.banner,.kpis,.card,.netfx,.foot2,.sagebtn,.sage,.df,.dh .x,.warn,.view{display:none!important}
+  .shade{display:none!important}
+  .drawer{position:static;transform:none;box-shadow:none;width:100%;height:auto}
+  body{background:#fff}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="brand">Project Spear<small>CONTENT MODERATION PLATFORM</small></div>
+    <div class="grp">Dashboards</div>
+    <a class="nav on" data-v="ops"><span class="ic">▦</span>Operational view</a>
+    <a class="nav" data-v="exec"><span class="ic">↗</span>Executive view</a>
+    <div class="grp">Case management</div>
+    <a class="nav" href="./"><span class="ic">✳</span>Agent analysis</a>
+    <a class="nav" data-v="all"><span class="ic">☰</span>All open cases<span class="ct" id="c-open"></span></a>
+    <a class="nav" data-v="approved"><span class="ic">✓</span>Human approved<span class="ct" id="c-appr"></span></a>
+    <a class="nav" data-v="specialist"><span class="ic">◷</span>Specialist queue<span class="ct" id="c-esc"></span></a>
+    <a class="nav" data-v="reported"><span class="ic">▤</span>Reported to Meta<span class="ct" id="c-rep"></span></a>
+    <div class="grp">Agent management</div>
+    <a class="nav" data-v="console"><span class="ic">⌘</span>Agent console</a>
+    <a class="nav" data-v="memory"><span class="ic">◈</span>Agent memory</a>
+    <div class="grp">Analyst workspace</div>
+    <a class="nav ext" href="./#capture"><span class="ic">⊕</span>Capture &amp; analyze<span class="go">↗</span></a>
+    <a class="nav ext" href="./#tab=queue"><span class="ic">☷</span>Review queue<span class="go">↗</span></a>
+    <a class="nav ext" href="./#tab=ai"><span class="ic">✦</span>AI chat<span class="go">↗</span></a>
+    <a class="nav ext" href="./#tab=log"><span class="ic">▣</span>Log<span class="go">↗</span></a>
+    <a class="nav ext" href="./#tab=net"><span class="ic">⌬</span>Network view<span class="go">↗</span></a>
+    <a class="nav ext" href="./#tab=cb"><span class="ic">✎</span>Codebook &amp; teach<span class="go">↗</span></a>
+    <a class="nav ext" href="./#tab=lib"><span class="ic">▥</span>Library<span class="go">↗</span></a>
+    <a class="nav ext" href="./#tab=hunt"><span class="ic">◎</span>Active Hunt<span class="go">↗</span></a>
+    <a class="nav ext" href="./#tab=bg"><span class="ic">⛨</span>BrandGuard™<span class="go">↗</span></a>
+    <div class="foot">Live system. Cases are this browser's review queue, shared with the Analyst workspace (every original tool is still there). Scoring and memory run on the Project Spear backend.</div>
+  </aside>
+
+  <main class="main">
+    <div class="banner">
+      <div>
+        <h1 id="vtitle">Operational dashboard</h1>
+        <p id="vsub">For reviewers &amp; T&amp;S ops — queue health, throughput, pipeline status</p>
+      </div>
+      <div class="sp"></div>
+      <a class="upl" href="./#capture">📷 Upload a photo</a>
+      <a class="upl ghost" href="./#capture">🔗 Paste a link</a>
+      <span class="chip live"><span class="dot" id="livedot"></span><span id="livetxt">Connecting…</span></span>
+      <span class="chip">Last 24 hours</span>
+    </div>
+    <div class="warn" id="setupWarn" style="display:none"></div>
+
+    <!-- ===== Operational / case lists ===== -->
+    <section class="view on" id="v-ops">
+      <div class="kpis">
+        <div class="kpi"><div class="l">Queue depth</div><div class="v" id="k-q">–</div><div class="d" id="k-qd"></div></div>
+        <div class="kpi"><div class="l">Avg. time to decision</div><div class="v" id="k-t">–</div><div class="d" id="k-td"></div></div>
+        <div class="kpi"><div class="l">Reviewed today</div><div class="v" id="k-r">–</div><div class="d" id="k-rd"></div></div>
+        <div class="kpi"><div class="l">Escalated to specialist</div><div class="v" id="k-e">–</div><div class="d" id="k-ed"></div></div>
+      </div>
+      <div class="card tiers"><h3>Risk tiers</h3><div class="tbar" id="tbar"></div><div class="tleg" id="tleg"></div></div>
+      <div class="card">
+        <div class="qhead">
+          <h2 id="qtitle">HITL review queue</h2><span class="n" id="qcount"></span>
+          <div class="sp"></div>
+          <select id="fplat"><option value="">All platforms</option></select>
+          <select id="ftype"><option value="">All types</option></select>
+          <select id="ftier"><option value="">All risk tiers</option><option>CRITICAL</option><option>HIGH</option><option>MEDIUM</option><option>LOW</option><option>MINIMAL</option></select>
+          <button class="btn pri" id="bcsv">⭳ Export CSV</button>
+          <button class="btn pri" id="ball">☰ View all open cases</button>
+        </div>
+        <div class="tw"><table>
+          <thead><tr><th>Case ID</th><th>Date</th><th>Type</th><th>Platform</th><th style="text-align:center">Agent recommendation</th><th>Risk</th><th>Status</th><th>Decision</th><th>View details</th></tr></thead>
+          <tbody id="qbody"></tbody>
+        </table></div>
+        <div class="empty" id="qempty" style="display:none"></div>
+      </div>
+      <div class="netfx"><b>NET EFFECT</b>The analyst's job shifts from finding hate to verifying, ranking, reporting and teaching the AI what platforms miss.</div>
+    </section>
+
+    <!-- ===== Executive ===== -->
+    <section class="view" id="v-exec">
+      <div class="kpis">
+        <div class="kpi"><div class="l">Cases in system</div><div class="v" id="x-tot">–</div><div class="d">this workspace</div></div>
+        <div class="kpi"><div class="l">Human-approved violations</div><div class="v" id="x-appr">–</div><div class="d" id="x-apprd"></div></div>
+        <div class="kpi"><div class="l">Analyst confirmation rate</div><div class="v" id="x-rate">–</div><div class="d" id="x-rated">of AI-flagged cases reviewed</div></div>
+        <div class="kpi"><div class="l">Analyst field record</div><div class="v" id="x-field">–</div><div class="d" id="x-fieldd">confirmed Meta submissions</div></div>
+      </div>
+      <div class="grid2">
+        <div class="panel"><h3>Cases by type</h3><div id="x-type"></div></div>
+        <div class="panel"><h3>Cases by platform</h3><div id="x-plat"></div></div>
+        <div class="panel"><h3>Senior analyst's confirmed Meta submissions, by month</h3><div id="x-month"></div><div class="note" id="x-monthn"></div></div>
+        <div class="panel"><h3>Senior analyst's submissions, by type</h3><div id="x-ftype"></div><div class="note">The analyst's own record, distilled on the backend. No usernames or links leave the private repository.</div></div>
+      </div>
+    </section>
+
+    <!-- ===== Agent console ===== -->
+    <section class="view" id="v-console">
+      <div class="panel" style="margin-top:18px">
+        <h3>Run a live hunt</h3>
+        <div class="note" style="margin-top:0">The agent searches the open platforms Project Spear can lawfully reach (Telegram public channels, Bluesky and the open web), scores every post with the vision/text model primed with the senior analyst's indicators, and puts anything that scores 4 or higher into the review queue. Facebook and Instagram are not searched; those cases come from analyst capture.</div>
+        <div class="tags" id="tagbox"></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <input type="text" id="newtag" placeholder="Add a hashtag, phrase or symbol name" style="flex:1;min-width:220px">
+          <button class="btn ghost" id="addtag">Add</button>
+          <select id="maxn"><option value="6">Score up to 6 posts</option><option value="10" selected>Score up to 10 posts</option><option value="16">Score up to 16 posts</option></select>
+          <button class="btn pri" id="runhunt">Run live hunt</button>
+        </div>
+        <div class="prog" id="prog" style="display:none"></div>
+      </div>
+    </section>
+
+    <!-- ===== Agent memory ===== -->
+    <section class="view" id="v-memory">
+      <div class="kpis">
+        <div class="kpi"><div class="l">Codebook entries (approved)</div><div class="v" id="m-cb">–</div><div class="d">coded terms, symbols, numbers</div></div>
+        <div class="kpi"><div class="l">Analyst indicator themes</div><div class="v" id="m-th">–</div><div class="d" id="m-thd"></div></div>
+        <div class="kpi"><div class="l">In the model's prompt</div><div class="v" id="m-pr">–</div><div class="d">every image &amp; post scored</div></div>
+        <div class="kpi"><div class="l">Reference documents</div><div class="v" id="m-docs">–</div><div class="d">threat matrix &amp; taxonomy</div></div>
+      </div>
+      <div class="grid2">
+        <div class="panel"><h3>What the agent learned from the senior analyst</h3><div id="m-themes"></div></div>
+        <div class="panel"><h3>Codebook</h3><input type="text" id="cbq" placeholder="Search terms…" style="width:100%;margin-bottom:10px"><div id="m-cbl" style="max-height:520px;overflow:auto"></div></div>
+      </div>
+    </section>
+
+    <div class="foot2"><span>Confidential — Project Spear / GIPEC AI²</span><span>© 2026 GIPEC AI². Patent Pending.</span></div>
+  </main>
+</div>
+
+<div class="shade" id="shade"></div>
+<div class="drawer" id="drawer"><div class="dh"><h3 id="dt"></h3><button class="x" id="dx">×</button></div><div class="db" id="db"></div><div class="df" id="df"></div></div>
+
+<button class="sagebtn" id="sagebtn">✦ SAGE</button>
+<div class="sage" id="sage">
+  <div class="sh">SAGE assistant<small>Ask about cases, platforms and trends in plain English. Answers come from the cases in this queue.</small></div>
+  <div class="sm" id="sagelog"><div class="a">Try: “how many terrorism cases are open?”, “what’s overdue?”, “how many did we approve today?”, “top indicators on Instagram”.</div></div>
+  <form id="sageform"><input type="text" id="sageq" placeholder="Ask SAGE…" autocomplete="off"><button class="btn pri">Ask</button></form>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   Project Spear — Operational dashboard
+   Reads and writes the same browser queue as the Agent analysis
+   workspace (index.html): localStorage 'spear_items'. Backend
+   calls carry the owner's key ('spear_key').
+   ============================================================ */
+const BACKEND_DEFAULT='https://project-spear-backend.onrender.com';
+const ITEMS_KEY='spear_items';
+let API=BACKEND_DEFAULT, KEY='';
+(function setup(){
+  try{
+    const u=new URLSearchParams(location.search);
+    const a=(u.get('api')||'').replace(/\/$/,''), k=(u.get('key')||'').trim();
+    if(a)localStorage.setItem('spear_api',a);
+    if(k)localStorage.setItem('spear_key',k);
+    if(a||k){u.delete('api');u.delete('key');const q=u.toString();history.replaceState(null,'',location.pathname+(q?'?'+q:'')+location.hash);}
+    API=(localStorage.getItem('spear_api')||BACKEND_DEFAULT).replace(/\/$/,'');
+    KEY=localStorage.getItem('spear_key')||'';
+  }catch(e){}
+})();
+function H(extra){const h=Object.assign({},extra||{});if(KEY)h['X-Spear-Key']=KEY;return h}
+async function api(path,opt){opt=opt||{};opt.headers=H(opt.headers);const r=await fetch(API+path,opt);if(r.status===401){setLive(false,'Key refused');throw new Error('401')}return r}
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('on'),2600)}
+
+/* ---------- shared queue (re-read before every write so the analysis workspace's changes are kept) ---------- */
+function loadItems(){try{const a=JSON.parse(localStorage.getItem(ITEMS_KEY)||'[]');return Array.isArray(a)?a:[]}catch(e){return []}}
+function saveItems(a){try{localStorage.setItem(ITEMS_KEY,JSON.stringify(a.slice(0,600)))}catch(e){toast('Browser storage is full — could not save')}}
+function mutate(id,fn){const a=loadItems();const it=a.find(x=>String(x.id)===String(id));if(!it)return null;fn(it);saveItems(a);return it}
+let ITEMS=loadItems();
+window.addEventListener('storage',e=>{if(e.key===ITEMS_KEY){ITEMS=loadItems();renderAll()}});
+
+/* ---------- mapping ---------- */
+const TERROR=['isis_terrorism','recruitment','glorification','incitement','financing','operational_planning'];
+function typeOf(it){
+  const c=it.category||'benign', txt=((it.indicators||[]).join(' ')+' '+(it.reasoning||'')).toLowerCase();
+  if(/samidoun|designated (org|entity)/.test(txt))return 'Dangerous Orgs';
+  if(c!=='isis_terrorism'&&/antisemit|happy merchant|\bjew(s|ish)?\b|jewmaxx|\bgoy|holocaust|holohoax|\bzog\b|synagogue of satan/.test(txt+' '+String(it.visionDesc||'').toLowerCase()))return 'Hate Speech';
+  if(TERROR.includes(c))return 'Terrorism';
+  if(c==='antisemitism'||c==='propaganda')return 'Hate Speech';
+  if(c==='domestic_terrorism')return 'Extremism';
+  const o={narcotics:'Narcotics',counterfeit_meds:'Counterfeit meds',public_safety_threat:'Public safety',child_safety:'Child safety',self_harm_promotion:'Self-harm',inauthentic_ai:'Inauthentic',situational_awareness:'Situational'};
+  return o[c]||'Review';
+}
+function typeCls(t){return t==='Terrorism'?'t-Terrorism':t==='Hate Speech'?'t-Hate':t==='Extremism'?'t-Extremism':t==='Dangerous Orgs'?'t-Dangerous':'t-Other'}
+const POLICY={'Terrorism':'Dangerous Organizations and Individuals','Hate Speech':'Hateful Conduct','Extremism':'Dangerous Organizations and Individuals','Dangerous Orgs':'Dangerous Organizations and Individuals','Narcotics':'Restricted Goods and Services','Counterfeit meds':'Restricted Goods and Services','Public safety':'Violence and Incitement','Child safety':'Child Sexual Exploitation (routed to NCMEC)','Self-harm':'Suicide, Self-Injury and Eating Disorders','Inauthentic':'Inauthentic Behavior'};
+function platOf(it){const p=(it.platform||'').toLowerCase();if(p.includes('insta'))return 'Instagram';if(p.includes('face')||p==='fb')return 'Facebook';if(p.includes('telegram')||/t\.me/.test(it.url||''))return 'Telegram';if(p.includes('bsky')||p.includes('bluesky'))return 'Bluesky';if(p.includes('mastodon'))return 'Mastodon';if(p.includes('audio'))return 'Audio';return p?p.charAt(0).toUpperCase()+p.slice(1):'Web'}
+const PCOL={Instagram:'#e0457b',Facebook:'#1f5fd6',Telegram:'#2aa3e0',Bluesky:'#1d9bf0',Mastodon:'#6364ff',Web:'#9aa3b2'};
+function tierOf(s){return s>=9?'CRITICAL':s>=7?'HIGH':s>=5?'MEDIUM':s>=3?'LOW':'MINIMAL'}
+const TIERS=['CRITICAL','HIGH','MEDIUM','LOW','MINIMAL'];
+const TIERHEX={CRITICAL:'#B42318',HIGH:'#D9480F',MEDIUM:'#B7791F',LOW:'#2F855A',MINIMAL:'#5A6472'};
+function tierFor(it){const t=String(it.tier||'').toUpperCase();return TIERHEX[t]?t:tierOf(it.score||0)}
+function tierPill(it){if(it.visionFailed)return '<span class="tier tr-UNCHECKED" title="The AI never saw this picture — open it in Agent analysis and press Try again">NOT CHECKED</span>';const t=tierFor(it);return `<span class="tier tr-${t}"><b>${it.score||0}/10</b>${t}</span>`}
+function renderTiers(){
+  const V=VIEWS[VIEW];const set=V&&V.f?ITEMS.filter(V.f):ITEMS.filter(isOpen);const tot=set.length;const fr=$('ftier').value;
+  const c={};TIERS.forEach(t=>c[t]=0);set.forEach(it=>c[tierFor(it)]++);
+  $('tbar').innerHTML=tot?TIERS.filter(t=>c[t]).map(t=>`<span style="background:${TIERHEX[t]};width:${c[t]/tot*100}%" data-t="${t}" title="${t}: ${c[t]}">${c[t]/tot>.06?c[t]:''}</span>`).join(''):'';
+  $('tleg').innerHTML=TIERS.map(t=>`<button data-t="${t}" class="${fr===t?'on':''}"><i style="background:${TIERHEX[t]}"></i>${t} ${c[t]}</button>`).join('');
+}
+document.addEventListener('click',e=>{const b=e.target.closest('#tleg button,#tbar span');if(!b)return;const t=b.dataset.t;$('ftier').value=$('ftier').value===t?'':t;renderTiers();renderQueue()});
+const SLA_H={CRITICAL:4,HIGH:24,MEDIUM:72,LOW:168,MINIMAL:168};
+function capDate(it){const s=it.captured||'';const d=new Date(s.replace(' ','T'));return isNaN(d)?null:d}
+function caseId(it){return 'SP-'+String(it.id).padStart(4,'0')}
+function isOpen(it){return !it.status||it.status==='Pending'}
+function slaLeft(it){const d=capDate(it);if(!d)return null;return (d.getTime()+SLA_H[it.tier||tierOf(it.score||0)]*3600e3-Date.now())/3600e3}
+function slaHtml(it){
+  if(it.status==='Confirmed')return '<span class="sla done">Approved</span>';
+  if(it.status==='Dismissed')return '<span class="sla rej">Rejected</span>';
+  if(it.status==='Escalated')return '<span class="sla esc">Escalated</span>';
+  if(/NCMEC/.test(it.status||''))return '<span class="sla esc">NCMEC</span>';
+  const h=slaLeft(it);if(h==null)return '<span class="sla">—</span>';
+  if(h<0)return '<span class="sla over">Overdue</span>';
+  if(h<48)return `<span class="sla">${Math.max(1,Math.round(h))} hrs left</span>`;
+  const dd=Math.round(h/24);return `<span class="sla">${dd} day${dd>1?'s':''} left</span>`;
+}
+function recText(it){
+  if(it.category==='child_safety')return 'Routed to NCMEC — description withheld';
+  const c=(it.caption||'').replace(/\s+/g,' ').trim().replace(/^["“”']+|["“”']+$/g,'');
+  const r=(it.visionDesc||it.reasoning||'').replace(/\s+/g,' ').trim();
+  const s=c?`“${c.slice(0,90)}${c.length>90?'…':''}”${r?' — '+r:''}`:(r||it.url||'');
+  return s.length>170?s.slice(0,168)+'…':s;
+}
+const today0=()=>{const d=new Date();d.setHours(0,0,0,0);return d.getTime()};
+const inDay=(iso,offset)=>{if(!iso)return false;const t=new Date(iso).getTime(),s=today0()-offset*864e5;return t>=s&&t<s+864e5};
+
+/* ---------- views ---------- */
+let VIEW='ops';
+const VIEWS={
+  ops:{t:'Operational dashboard',s:'For reviewers & T&S ops — queue health, throughput, pipeline status',sec:'v-ops',q:'HITL review queue',f:it=>isOpen(it)&&((it.score||0)>=3||!!it.visionFailed)},
+  all:{t:'All open cases',s:'Everything waiting on a human decision, worst first',sec:'v-ops',q:'All open cases',f:it=>isOpen(it)},
+  approved:{t:'Human approved',s:'Violations an analyst confirmed — ready for a policy-mapped report',sec:'v-ops',q:'Human approved',f:it=>it.status==='Confirmed'},
+  specialist:{t:'Specialist queue',s:'Escalated by an analyst for specialist review',sec:'v-ops',q:'Specialist queue',f:it=>it.status==='Escalated'||/NCMEC/.test(it.status||'')},
+  reported:{t:'Reported to Meta',s:'Cases packaged and marked as submitted to the platform',sec:'v-ops',q:'Reported to Meta',f:it=>!!it.reportedAt},
+  exec:{t:'Executive view',s:'Trends for leadership — volume, mix, confirmation rate and the analyst field record',sec:'v-exec'},
+  console:{t:'Agent console',s:'Point the hunting agent at hashtags, phrases and symbols',sec:'v-console'},
+  memory:{t:'Agent memory',s:'What the agent knows — the codebook and the senior analyst’s confirmed indicators',sec:'v-memory'},
+};
+function go(v){
+  if(!VIEWS[v])v='ops';VIEW=v;const V=VIEWS[v];
+  document.querySelectorAll('.nav[data-v]').forEach(n=>n.classList.toggle('on',n.dataset.v===v));
+  document.querySelectorAll('.view').forEach(s=>s.classList.toggle('on',s.id===V.sec));
+  $('vtitle').textContent=V.t;$('vsub').textContent=V.s;
+  if(V.q)$('qtitle').textContent=V.q;
+  if(location.hash!=='#'+v)history.replaceState(null,'','#'+v);
+  if(v==='exec')renderExec();if(v==='memory')renderMemory();if(v==='console')renderTags();
+  renderTiers();renderQueue();
+}
+document.querySelectorAll('.nav[data-v]').forEach(n=>n.addEventListener('click',()=>go(n.dataset.v)));
+$('ball').onclick=()=>go('all');
+
+/* ---------- KPIs ---------- */
+function renderKpis(){
+  const a=ITEMS, open=a.filter(isOpen);
+  $('k-q').textContent=open.length;
+  const newT=a.filter(it=>{const d=capDate(it);return d&&d.getTime()>=today0()}).length;
+  const newY=a.filter(it=>{const d=capDate(it);return d&&d.getTime()>=today0()-864e5&&d.getTime()<today0()}).length;
+  $('k-qd').innerHTML=`<span class="${newT>newY?'up':''}">${newT>=newY?'▲':'▼'} ${newT} new today · ${newY} yesterday</span>`;
+  const dec=a.filter(it=>it.decidedAt&&capDate(it));
+  const recent=dec.filter(it=>Date.now()-new Date(it.decidedAt).getTime()<864e5);
+  const pool=recent.length?recent:dec;
+  if(pool.length){const avg=pool.reduce((s,it)=>s+(new Date(it.decidedAt)-capDate(it)),0)/pool.length/3600e3;
+    $('k-t').innerHTML=`${avg<10?avg.toFixed(1):Math.round(avg)}<small>hrs</small>`;$('k-td').textContent=`over ${pool.length} decision${pool.length>1?'s':''}${recent.length?' in last 24h':''}`}
+  else{$('k-t').innerHTML='—';$('k-td').textContent='starts with the first decision here'}
+  const rT=a.filter(it=>inDay(it.decidedAt,0)).length, rY=a.filter(it=>inDay(it.decidedAt,1)).length;
+  $('k-r').textContent=rT;$('k-rd').innerHTML=`<span class="${rT>=rY?'good':''}">${rT>=rY?'▲':'▼'} ${Math.abs(rT-rY)} vs. yesterday</span>`;
+  const eT=a.filter(it=>it.status==='Escalated'&&inDay(it.decidedAt,0)).length, eY=a.filter(it=>it.status==='Escalated'&&inDay(it.decidedAt,1)).length;
+  $('k-e').textContent=eT;$('k-ed').innerHTML=`<span class="${eT>eY?'up':''}">${eT>=eY?'▲':'▼'} ${Math.abs(eT-eY)} vs. yesterday</span>`;
+  $('c-open').textContent=open.length||'';$('c-appr').textContent=a.filter(x=>x.status==='Confirmed').length||'';
+  $('c-esc').textContent=a.filter(x=>x.status==='Escalated').length||'';$('c-rep').textContent=a.filter(x=>x.reportedAt).length||'';
+}
+
+/* ---------- queue ---------- */
+function fillFilters(){
+  const ps=[...new Set(ITEMS.map(platOf))].sort(), ts=[...new Set(ITEMS.map(typeOf))].sort();
+  const fp=$('fplat'),ft=$('ftype'),vp=fp.value,vt=ft.value;
+  fp.innerHTML='<option value="">All platforms</option>'+ps.map(p=>`<option>${esc(p)}</option>`).join('');fp.value=vp;
+  ft.innerHTML='<option value="">All types</option>'+ts.map(p=>`<option>${esc(p)}</option>`).join('');ft.value=vt;
+}
+$('fplat').onchange=renderQueue;$('ftype').onchange=renderQueue;$('ftier').onchange=()=>{renderTiers();renderQueue()};
+function rows(){
+  const V=VIEWS[VIEW];if(!V.f)return [];
+  const fp=$('fplat').value,ft=$('ftype').value,fr=$('ftier').value;
+  return ITEMS.filter(V.f).filter(it=>(!fp||platOf(it)===fp)&&(!ft||typeOf(it)===ft)&&(!fr||tierFor(it)===fr))
+    .sort((a,b)=>{if(VIEW==='reported')return new Date(b.reportedAt)-new Date(a.reportedAt);
+      const oa=isOpen(a)?(slaLeft(a)??1e9):1e9, ob=isOpen(b)?(slaLeft(b)??1e9):1e9;
+      return ((b.score||0)-(a.score||0))||(oa-ob)||(b.id-a.id)});
+}
+function renderQueue(){
+  if(!VIEWS[VIEW].f)return;
+  const r=rows(),tb=$('qbody');
+  $('qcount').textContent=`${r.length} case${r.length===1?'':'s'}`;
+  tb.innerHTML=r.map(it=>{
+    const t=typeOf(it),p=platOf(it),open=isOpen(it);
+    const d=(it.captured||'').slice(0,10);
+    const decide=open?`<div class="dec"><button class="btn b-sm b-ok" data-a="Confirmed" data-id="${it.id}">Approve</button><button class="btn b-sm b-no" data-a="Dismissed" data-id="${it.id}">Reject</button><button class="btn b-sm b-esc" data-a="Escalated" data-id="${it.id}">Escalate</button></div>`
+      :`<div class="dec"><button class="btn b-sm lnk" data-a="Pending" data-id="${it.id}" title="Put back in the queue">Reopen</button></div>`;
+    return `<tr class="x-${tierFor(it)}"><td class="mono">${caseId(it)}</td><td class="mono">${esc(d)}</td><td><span class="pill ${typeCls(t)}">${esc(t)}</span></td>
+      <td class="plat"><i style="background:${PCOL[p]||'#9aa3b2'}"></i>${esc(p)}</td><td class="rec">${esc(recText(it))}</td>
+      <td class="conf">${tierPill(it)}</td><td>${slaHtml(it)}</td><td>${decide}</td>
+      <td><div class="dec"><button class="btn lnk" data-d="${it.id}">View Details</button><button class="btn lnk" data-r="${it.id}">Case Report</button><a class="btn lnk" style="text-decoration:none" href="brief.html?id=${encodeURIComponent(it.id)}" target="_blank">Reports</a></div></td></tr>`}).join('');
+  const em=$('qempty');
+  if(!r.length){em.style.display='';
+    em.innerHTML=ITEMS.length?'<b>Nothing here.</b><br>No cases match this view and filter.'
+      :'<b>The queue is empty in this browser.</b><br>Run a live hunt from the <a href="#console" onclick="go(\'console\');return false">Agent console</a>, or capture a post in <a href="./">Agent analysis</a>. Cases appear here as they are scored.'}
+  else em.style.display='none';
+}
+$('qbody').addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b)return;
+  if(b.dataset.a)decide(b.dataset.id,b.dataset.a);
+  else if(b.dataset.d)openDetails(b.dataset.d);
+  else if(b.dataset.r)openReport(b.dataset.r);
+});
+
+/* ---------- decisions (same statuses the analysis workspace uses; feedback goes to the learning library) ---------- */
+function decide(id,status){
+  const it=mutate(id,x=>{x.status=status;if(status==='Pending'){delete x.decidedAt}else{x.decidedAt=new Date().toISOString();x.decidedIn='ops'}});
+  if(!it)return;ITEMS=loadItems();renderAll();
+  if(status!=='Pending'){
+    api('/api/library/feedback',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({item_id:String(it.id),source_type:it.type||'url',
+      content:((it.ocr||'')+' '+(it.caption||'')+' '+(it.url||'')).trim(),model_category:it.category||'',model_score:it.score||0,
+      codebook_hits:(it.cbHits||[]).map(h=>h.id).filter(Boolean),decision:status,final_category:it.category||'',final_score:it.score||0,grade:it.grade||'',notes:it.notes||'',analyst:'analyst'})})
+      .then(r=>toast(`${caseId(it)} ${status==='Confirmed'?'approved':status==='Dismissed'?'rejected':'escalated'} · ${r.ok?'sent to the learning library':'saved here'}`))
+      .catch(()=>toast(`${caseId(it)} saved here — learning library unreachable`));
+  }else toast(caseId(it)+' back in the queue');
+  if(DRAWER_ID&&String(DRAWER_ID)===String(id))openDetails(id);
+}
+
+/* ---------- details drawer ---------- */
+let DRAWER_ID=null;
+function openDrawer(title,body,foot){$('dt').textContent=title;$('db').innerHTML=body;$('df').innerHTML=foot||'';$('drawer').classList.add('on');$('shade').classList.add('on')}
+function closeDrawer(){$('drawer').classList.remove('on');$('shade').classList.remove('on');DRAWER_ID=null}
+$('dx').onclick=closeDrawer;$('shade').onclick=closeDrawer;
+function link(u){u=(u||'').split(' ')[0];return /^https?:/.test(u)?`<a href="${esc(u)}" target="_blank" rel="noopener noreferrer">${esc(u)}</a>`:esc(u||'—')}
+function openDetails(id){
+  const it=ITEMS.find(x=>String(x.id)===String(id));if(!it)return;DRAWER_ID=id;const t=typeOf(it);
+  const body=`<div class="kv">
+    <div>Type</div><div><span class="pill ${typeCls(t)}">${esc(t)}</span> <span class="mono">${esc((it.category||'').replace(/_/g,' '))}</span></div>
+    <div>Platform</div><div>${esc(platOf(it))}</div><div>Account</div><div>${esc(it.poster||'—')}</div>
+    <div>Link</div><div>${link(it.url)}</div><div>Captured</div><div class="mono">${esc(it.captured||'—')}</div>
+    <div>AI score</div><div class="mono">${tierPill(it)} · confidence ${Math.round((it.confidence||0)*100)}%</div>
+    <div>Evidence grade</div><div>${esc(it.grade||'—')}</div><div>Status</div><div>${slaHtml(it)}</div>
+    ${it.decidedAt?`<div>Decided</div><div class="mono">${esc(new Date(it.decidedAt).toLocaleString())}</div>`:''}
+    ${it.reportedAt?`<div>Reported to Meta</div><div class="mono">${esc(new Date(it.reportedAt).toLocaleString())}</div>`:''}
+  </div>
+  ${it.caption?`<div class="sec">Post text</div><div class="box">${esc(it.caption)}</div>`:''}
+  ${it.category!=='child_safety'&&it.visionDesc?`<div class="sec">What it shows</div><div class="box">${esc(it.visionDesc)}</div>`:''}
+  ${it.reasoning?`<div class="sec">Why it was flagged</div><div class="box">${esc(it.reasoning)}</div>`:''}
+  ${(it.indicators||[]).length?`<div class="sec">Indicators</div><div class="tags">${it.indicators.slice(0,14).map(x=>`<span class="tag" style="cursor:default">${esc(x)}</span>`).join('')}</div>`:''}
+  <div class="sec">Analyst notes</div><textarea id="dnotes" rows="3" style="width:100%">${esc(it.notes||'')}</textarea>`;
+  const open=isOpen(it);
+  const foot=(open?`<button class="btn b-ok" onclick="decide('${it.id}','Confirmed')">Approve</button><button class="btn b-no" onclick="decide('${it.id}','Dismissed')">Reject</button><button class="btn b-esc" onclick="decide('${it.id}','Escalated')">Escalate</button>`
+    :`<button class="btn ghost" onclick="decide('${it.id}','Pending')">Reopen</button>`)+
+    `<button class="btn ghost" onclick="saveNotes('${it.id}')">Save notes</button><button class="btn pri" onclick="openReport('${it.id}')">Case Report</button><a class="btn pri" style="text-decoration:none;background:#0f2a5c" href="brief.html?id=${encodeURIComponent(it.id)}" target="_blank">📑 Reports (PDF)</a><a class="btn ghost" href="./" style="text-decoration:none">Open in Agent analysis</a>`;
+  openDrawer(caseId(it)+' — case details',body,foot);
+}
+function saveNotes(id){const v=$('dnotes').value;mutate(id,x=>{x.notes=v});ITEMS=loadItems();toast('Notes saved')}
+
+/* ---------- case report (policy-mapped, printable) ---------- */
+function reportRows(it){
+  const t=typeOf(it);
+  return [['Case',caseId(it)],['Date found',it.captured||'—'],['Platform',platOf(it)],['Account',it.poster||'—'],['Link',link(it.url)],
+    ['Violation type',t],['Platform policy',esc(POLICY[t]||'Review against platform Community Standards')],
+    ['AI assessment',`${tierPill(it)} · confidence ${Math.round((it.confidence||0)*100)}%`],
+    ['What it shows',it.category==='child_safety'?'Withheld — routed to NCMEC':esc(it.visionDesc||it.caption||'—')],
+    ['Why it violates',esc(it.reasoning||'—')],['Indicators',esc((it.indicators||[]).join('; ')||'—')],
+    ['Evidence grade',esc(it.grade||'—')],
+    ['Analyst decision',it.status&&it.status!=='Pending'?`${esc(it.status)}${it.decidedAt?' · '+esc(new Date(it.decidedAt).toLocaleString()):''}`:'Awaiting review'],
+    ['Analyst notes',esc(it.notes||'—')],
+    ['Chain of custody',`Captured ${esc(it.captured||'—')} from the public link above; scored by Project Spear; decision recorded by a human analyst${it.reportedAt?'; reported to the platform '+esc(new Date(it.reportedAt).toLocaleString()):''}.`]];
+}
+function openReport(id){
+  const it=ITEMS.find(x=>String(x.id)===String(id));if(!it)return;DRAWER_ID=id;
+  const body=`<div class="report"><h2>Case Report — ${caseId(it)}</h2><div class="rsub">Project Spear / GIPEC AI² · prepared ${new Date().toLocaleString()}</div>
+    <table>${reportRows(it).map(([k,v])=>`<tr><td>${k}</td><td>${v}</td></tr>`).join('')}</table>
+    <div class="note">© 2026 GIPEC AI². Patent Pending. Confidential.</div></div>`;
+  const foot=`<a class="btn pri" style="text-decoration:none;background:#0f2a5c" href="brief.html?id=${encodeURIComponent(it.id)}" target="_blank">📑 Reports (PDF)</a><button class="btn pri" onclick="window.print()">Print / Save PDF</button><button class="btn ghost" onclick="copyReport('${it.id}')">Copy text</button>`+
+    (it.reportedAt?`<button class="btn ghost" onclick="markReported('${it.id}',false)">Unmark reported</button>`:`<button class="btn ghost" onclick="markReported('${it.id}',true)">Mark reported to Meta</button>`);
+  openDrawer('Case Report',body,foot);
+}
+function copyReport(id){const it=ITEMS.find(x=>String(x.id)===String(id));const tmp=document.createElement('div');
+  const txt=reportRows(it).map(([k,v])=>{tmp.innerHTML=v;return k+': '+tmp.textContent}).join('\n');
+  navigator.clipboard.writeText('Case Report — '+caseId(it)+'\n'+txt).then(()=>toast('Report copied'),()=>toast('Copy failed'))}
+function markReported(id,on){mutate(id,x=>{if(on)x.reportedAt=new Date().toISOString();else delete x.reportedAt});ITEMS=loadItems();renderAll();openReport(id);toast(on?'Marked reported to Meta':'Unmarked')}
+
+/* ---------- CSV in the analyst's Meta submission format ---------- */
+$('bcsv').onclick=()=>{
+  const r=rows();if(!r.length){toast('Nothing in this view to export');return}
+  const cell=v=>{v=v==null?'':String(v);return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v};
+  const head=['Date Found','Type','Insta/Facebook','User','URL','Keywords/images/Hashtags','Notes/context'];
+  const lines=r.map(it=>[(it.captured||'').slice(0,10),typeOf(it),platOf(it),it.poster||'',(it.url||'').split(' ')[0],
+    (it.indicators||[]).slice(0,6).join(', '),(it.visionDesc||it.reasoning||'').replace(/\s+/g,' ').slice(0,300)].map(cell).join(','));
+  const blob=new Blob(['﻿'+[head.join(','),...lines].join('\r\n')],{type:'text/csv'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`Project_Spear_${VIEW}_${new Date().toISOString().slice(0,10)}.csv`;a.click();
+  toast(`Exported ${r.length} case(s) in the Meta submission format`);
+};
+
+/* ---------- executive ---------- */
+function bars(el,obj,max){const ent=Object.entries(obj).sort((a,b)=>b[1]-a[1]);const m=max||Math.max(1,...ent.map(e=>e[1]));
+  $(el).innerHTML=ent.length?ent.map(([k,v])=>`<div class="bar"><span class="lab" title="${esc(k)}">${esc(k)}</span><span class="trk"><span class="fil" style="width:${Math.max(2,100*v/m)}%;display:block"></span></span><span class="num">${v.toLocaleString()}</span></div>`).join(''):'<div class="note">No cases yet.</div>'}
+let FIELD=null;
+async function loadField(){if(FIELD)return FIELD;try{const r=await api('/api/analyst-knowledge');if(r.ok)FIELD=await r.json()}catch(e){}return FIELD}
+function count(arr,f){const o={};arr.forEach(x=>{const k=f(x);o[k]=(o[k]||0)+1});return o}
+async function renderExec(){
+  const a=ITEMS;$('x-tot').textContent=a.length.toLocaleString();
+  const appr=a.filter(x=>x.status==='Confirmed'||x.status==='Escalated');$('x-appr').textContent=appr.length;
+  $('x-apprd').textContent=`${a.filter(x=>x.reportedAt).length} marked reported to Meta`;
+  const flagged=a.filter(x=>(x.score||0)>=7&&x.status&&x.status!=='Pending');
+  $('x-rate').textContent=flagged.length?Math.round(100*flagged.filter(x=>x.status==='Confirmed'||x.status==='Escalated').length/flagged.length)+'%':'—';
+  $('x-rated').textContent=flagged.length?`${flagged.length} AI-flagged (7+) cases reviewed`:'shows after the first reviews';
+  bars('x-type',count(a,typeOf));bars('x-plat',count(a,platOf));
+  const f=await loadField();
+  if(f&&f.rows){
+    $('x-field').textContent=f.rows.toLocaleString();$('x-fieldd').textContent=`confirmed Meta submissions · ${f.date_from} to ${f.date_to}`;
+    const bm=f.by_month||{};const ks=Object.keys(bm);
+    if(ks.length){const m=Math.max(...Object.values(bm));const nm=k=>new Date(k+'-15').toLocaleString('en-US',{month:'short'});
+      $('x-month').innerHTML=`<div class="cols">${ks.map(k=>`<div class="col"><span class="cv">${bm[k]}</span><span class="cb" style="height:${Math.max(3,120*bm[k]/m)}px"></span></div>`).join('')}</div><div class="colx">${ks.map(k=>`<span>${nm(k)}</span>`).join('')}</div>`;
+      $('x-monthn').textContent='By the date the analyst found each post.'}
+    else $('x-month').innerHTML='<div class="note">Monthly breakdown not loaded yet.</div>';
+    bars('x-ftype',f.by_type||{});
+  }else{$('x-field').textContent='—';$('x-fieldd').textContent='backend not reachable';$('x-month').innerHTML=$('x-ftype').innerHTML='<div class="note">Connect this browser with the setup link to load the field record.</div>'}
+}
+
+/* ---------- agent memory ---------- */
+let CB=null;
+async function renderMemory(){
+  const f=await loadField();
+  if(f){$('m-th').textContent=f.themes||'—';$('m-thd').textContent=`from ${Number(f.rows||0).toLocaleString()} confirmed submissions`;
+    $('m-pr').textContent=f.installed?'Active':'Off';
+    const tl=(f.theme_list||[]).slice().sort((a,b)=>b.confirmed-a.confirmed);
+    const dn={terrorism:'ISIS / terrorism',hate:'Antisemitism / hate',extremism:'Extremist groups',dangerous_orgs:'Designated orgs'};
+    $('m-themes').innerHTML=tl.length?tl.map(t=>`<div class="bar"><span class="lab" title="${esc(t.label)}">${esc(t.label)}</span><span class="trk"><span class="fil" style="width:${Math.max(2,100*t.confirmed/tl[0].confirmed)}%;display:block"></span></span><span class="num">${t.confirmed}</span></div>`).join('')+`<div class="note">Grouped as: ${[...new Set(tl.map(t=>dn[t.domain]||t.domain))].join(' · ')}. Every one of these is in the model's instructions for every image and post it scores.</div>`:'<div class="note">Theme list not available.</div>'}
+  try{
+    if(!CB){const r=await api('/api/library');if(r.ok)CB=(await r.json()).entries||[]}
+    const s=await api('/api/library/docs');if(s.ok){const j=await s.json();$('m-docs').textContent=(j.docs||[]).length}
+  }catch(e){}
+  if(CB){$('m-cb').textContent=CB.filter(e=>e.status==='approved').length;renderCB()}
+}
+function renderCB(){const q=($('cbq').value||'').toLowerCase();
+  const l=(CB||[]).filter(e=>!q||(e.term+' '+(e.meaning||'')+' '+(e.variants||[]).join(' ')).toLowerCase().includes(q)).slice(0,200);
+  $('m-cbl').innerHTML=l.map(e=>`<div style="padding:8px 0;border-bottom:1px solid var(--line)"><b>${esc(e.term)}</b> <span class="pill t-Other">${esc(e.category)}</span> <span class="mono">sev ${e.severity}/5</span><div class="note" style="margin-top:3px">${esc(e.meaning||'')}</div></div>`).join('')||'<div class="note">No matches.</div>'}
+$('cbq').oninput=renderCB;
+
+/* ---------- agent console: live hunt ---------- */
+const DEFAULT_TAGS=['happy merchant','al naba','synagogue of satan','patriot front','active club','goyim'];
+let TAGS=(()=>{try{return JSON.parse(localStorage.getItem('spear_ops_tags')||'null')||DEFAULT_TAGS.map(t=>({t,on:true}))}catch(e){return DEFAULT_TAGS.map(t=>({t,on:true}))}})();
+function saveTags(){try{localStorage.setItem('spear_ops_tags',JSON.stringify(TAGS))}catch(e){}}
+function renderTags(){$('tagbox').innerHTML=TAGS.map((x,i)=>`<span class="tag ${x.on?'':'off'}" data-i="${i}" title="Click to switch on/off">${esc(x.t)}</span>`).join('')}
+$('tagbox').onclick=e=>{const s=e.target.closest('.tag');if(!s)return;TAGS[s.dataset.i].on=!TAGS[s.dataset.i].on;saveTags();renderTags()};
+$('addtag').onclick=()=>{const v=$('newtag').value.trim();if(!v)return;TAGS.push({t:v,on:true});$('newtag').value='';saveTags();renderTags()};
+function posterFrom(u,author){if(author)return author;try{const x=new URL(u),h=x.hostname.replace(/^www\./,''),s=x.pathname.split('/').filter(Boolean);
+  if(h==='bsky.app'&&s[0]==='profile')return s[1];if(h==='t.me')return 't.me/'+(s[0]==='s'?s[1]:s[0]);if(s[0]&&s[0][0]==='@')return s[0]+'@'+h;return h}catch(e){return 'Unknown — not established'}}
+const CATS=['isis_terrorism','propaganda','recruitment','glorification','incitement','financing','operational_planning','domestic_terrorism','antisemitism','narcotics','counterfeit_meds','public_safety_threat','child_safety','self_harm_promotion','inauthentic_ai','situational_awareness','benign'];
+function nowLocal(){const d=new Date(),p=n=>String(n).padStart(2,'0');return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`}
+let HUNTING=false;
+$('runhunt').onclick=async()=>{
+  if(HUNTING)return;const tags=TAGS.filter(x=>x.on).map(x=>x.t);if(!tags.length){toast('Switch on at least one term');return}
+  if(!KEY){toast('This browser needs the setup link first');return}
+  HUNTING=true;$('runhunt').disabled=true;const pg=$('prog');pg.style.display='';pg.textContent='';
+  const say=m=>{pg.textContent+=m+'\n';pg.scrollTop=pg.scrollHeight};
+  const max=+$('maxn').value;const seen=new Set(loadItems().map(i=>(i.url||'').split(' ')[0]));
+  let cand=[];
+  for(const t of tags){
+    say(`Searching “${t}”…`);
+    try{const r=await api('/api/search',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({tag:t,terms:[]})});
+      const j=await r.json();
+      // keep only posts that actually contain the term (search engines return loose matches)
+      const tl=t.toLowerCase(),words=tl.split(/\s+/).filter(Boolean),joined=tl.replace(/\s+/g,'');
+      const rel=x=>{const s=((x.title||'')+' '+(x.snippet||'')).toLowerCase();return s.includes(tl)||s.includes(joined)?2:words.every(w=>s.includes(w))?1:0};
+      const res=(j.results||[]).filter(x=>x.url&&!seen.has(x.url)&&!x.reference).map(x=>({...x,_rel:rel(x)})).filter(x=>x._rel>0).sort((a,b)=>b._rel-a._rel);
+      res.forEach(x=>{seen.add(x.url);cand.push({...x,_tag:t})});
+      say(`  ${(j.results||[]).length} result(s) from ${(j.live_sources||[]).join(', ')||'open sources'} · ${res.length} new and on-topic`);
+      if(j.meta_discovery&&/NOT SEARCHED/.test(j.meta_discovery))say('  Facebook/Instagram: not searched (analyst capture covers Meta)');
+    }catch(e){say('  search failed: '+(e.message||e))}
+  }
+  // interleave tags so one noisy term doesn't use the whole budget
+  const byTag={};cand.forEach(c=>(byTag[c._tag]=byTag[c._tag]||[]).push(c));
+  const pick=[];while(pick.length<max&&Object.values(byTag).some(a=>a.length))for(const k of Object.keys(byTag)){const x=byTag[k].shift();if(x&&pick.length<max)pick.push(x)}
+  say(`Scoring ${pick.length} post(s) with the analyst-primed model…`);
+  let added=0;
+  for(const c of pick){
+    try{const text=`${c.platform||'post'} by ${c.author||'unknown'}: ${c.title||''} ${c.snippet||''} — ${c.url}`.slice(0,3800);
+      let r=await api('/api/vision-text',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text})});
+      if(r.status>=500){await new Promise(z=>setTimeout(z,2500));r=await api('/api/vision-text',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text})})}
+      if(!r.ok){say(`  ${r.status} scoring ${c.url.slice(0,60)}`);continue}
+      const a=((await r.json()).analysis)||{};const score=Math.max(0,Math.min(10,Math.round(+a.risk_score||0)));
+      const cat=CATS.includes(a.category)?a.category:(a.category==='isis_terrorism'?'isis_terrorism':'benign');
+      say(`  ${score}/10 ${cat.replace(/_/g,' ')} — ${(c.snippet||c.title||'').replace(/\s+/g,' ').slice(0,70)}`);
+      if(score<4)continue;
+      const all=loadItems();const id=Math.max(0,...all.map(x=>+x.id||0))+1;
+      all.unshift({id,type:'url',url:c.url,name:c.title||c.url,ocr:'',labels:[],caption:(c.snippet||c.title||'').slice(0,400),
+        platform:c.platform||'web',poster:posterFrom(c.url,c.author),captured:nowLocal(),status:'Pending',notes:'',reviewers:[],
+        category:cat,score,tier:tierOf(score),recommendation:score>=9?'take_down':score>=6?'flag_for_review':'monitor',
+        grade:score>=8?'Corroborated':score>=5?'Inferred':'Predicted',connection:'',indicators:a.indicators||[],
+        reasoning:a.threat||'',breakdown:[],cbHits:[],visionDesc:a.description||'',policy:a.policy||'',confidence:+a.confidence||0.6,
+        source:'ops-hunt',huntTerm:c._tag});
+      saveItems(all);added++;
+    }catch(e){say('  scoring failed: '+(e.message||e))}
+  }
+  ITEMS=loadItems();renderAll();
+  say(`Done. ${added} case(s) added to the review queue.`);toast(`${added} new case(s) in the queue`);
+  HUNTING=false;$('runhunt').disabled=false;
+};
+
+/* ---------- SAGE: plain-English questions over the queue ---------- */
+$('sagebtn').onclick=()=>{$('sage').classList.toggle('on');$('sageq').focus()};
+$('sageform').onsubmit=e=>{e.preventDefault();const q=$('sageq').value.trim();if(!q)return;$('sageq').value='';
+  const log=$('sagelog');log.insertAdjacentHTML('beforeend',`<div class="q">${esc(q)}</div><div class="a">${sage(q)}</div>`);log.scrollTop=log.scrollHeight};
+function sage(q){
+  const s=q.toLowerCase();let set=ITEMS.slice();const said=[];
+  const typeMap={terror:'Terrorism',isis:'Terrorism',hate:'Hate Speech',antisem:'Hate Speech',extrem:'Extremism',dangerous:'Dangerous Orgs'};
+  for(const k in typeMap)if(s.includes(k)){set=set.filter(i=>typeOf(i)===typeMap[k]);said.push(typeMap[k].toLowerCase());break}
+  for(const p of ['instagram','facebook','telegram','bluesky','mastodon'])if(s.includes(p)){set=set.filter(i=>platOf(i).toLowerCase()===p);said.push('on '+p.charAt(0).toUpperCase()+p.slice(1));break}
+  if(/overdue|late|sla/.test(s)){set=set.filter(i=>isOpen(i)&&(slaLeft(i)??1)<0);said.push('overdue')}
+  else if(/open|pending|waiting|queue/.test(s)){set=set.filter(isOpen);said.push('open')}
+  else if(/approv|confirm/.test(s)){set=set.filter(i=>i.status==='Confirmed');said.push('approved')}
+  else if(/reject|dismiss/.test(s)){set=set.filter(i=>i.status==='Dismissed');said.push('rejected')}
+  else if(/escalat|specialist/.test(s)){set=set.filter(i=>i.status==='Escalated');said.push('escalated')}
+  else if(/report/.test(s)){set=set.filter(i=>i.reportedAt);said.push('reported to Meta')}
+  if(/today/.test(s)){set=set.filter(i=>i.decidedAt?inDay(i.decidedAt,0):(capDate(i)||0)>=today0());said.push('today')}
+  if(/indicator|symbol|trend|top|common/.test(s)){const c={};set.forEach(i=>(i.indicators||[]).forEach(x=>c[x]=(c[x]||0)+1));
+    const top=Object.entries(c).sort((a,b)=>b[1]-a[1]).slice(0,8);
+    return top.length?`Most common indicators${said.length?' ('+said.join(', ')+')':''}: `+top.map(([k,v])=>`<b>${esc(k)}</b> (${v})`).join(', ')+'.':'No indicators recorded for those cases yet.'}
+  if(/worst|highest|critical|priority/.test(s)){const t=set.filter(isOpen).sort((a,b)=>(b.score||0)-(a.score||0)).slice(0,5);
+    return t.length?'Highest-priority open cases: '+t.map(i=>`<b>${caseId(i)}</b> ${i.score}/10 ${esc(typeOf(i))} on ${esc(platOf(i))}`).join('; ')+'.':'No open cases match.'}
+  const n=set.length,ids=set.slice(0,6).map(i=>caseId(i)).join(', ');
+  if(!said.length&&!/how many|count|number|cases/.test(s))return 'I answer from the cases in this queue. Ask about counts by type (terrorism, hate, extremism), platform, status (open, approved, rejected, escalated, overdue, reported), “today”, the top indicators, or the highest-priority cases.';
+  return `<b>${n}</b> case${n===1?'':'s'}${said.length?' '+said.join(', '):''}.${n?' e.g. '+ids+(n>6?'…':''):''}`;
+}
+
+/* ---------- connection ---------- */
+function setLive(ok,txt){$('livedot').className='dot '+(ok?'ok':'bad');$('livetxt').textContent=txt}
+async function checkLive(){
+  if(!KEY){setLive(false,'Not set up');const w=$('setupWarn');w.style.display='';
+    w.innerHTML='<b>This browser isn’t connected yet.</b> Open your Project Spear setup link once on this device; after that this page connects on its own.';return}
+  try{const r=await api('/api/analyst-knowledge');if(r.ok){const j=await r.json();setLive(true,'Live · analyst memory '+(j.installed?'on':'off'))}else setLive(false,'Backend '+r.status)}
+  catch(e){if(e.message!=='401')setLive(false,'Backend waking up…');setTimeout(checkLive,15000)}
+}
+function renderAll(){renderKpis();fillFilters();renderTiers();renderQueue();if(VIEW==='exec')renderExec()}
+renderAll();go((location.hash||'#ops').slice(1));checkLive();
+setInterval(()=>{renderKpis();renderQueue()},60000);
+</script>
+</body>
+</html>
