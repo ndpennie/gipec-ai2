@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer"><title>Project Spear — import</title></head>
+<body style="font:16px/1.6 system-ui;max-width:700px;margin:40px auto;padding:20px">
+<h1>Import saved Project Spear data</h1>
+<p>Close other Project Spear tabs first. Keep your old device and encrypted backup. Conflicting destination values will stop the import without replacing them.</p>
+<button id="open">Open old site's export window</button>
+<p>If the popup is blocked, <a href="https://ndpennie.github.io/gipec-ai2/export.html?return=1" rel="noreferrer">open the old site's export page</a>, download an encrypted backup, then return here.</p>
+<label>Encrypted backup <input id="file" type="file" accept=".json,application/json"></label>
+<p><label>Passphrase <input id="password" type="password" autocomplete="off"></label></p>
+<button id="read">Read encrypted backup</button>
+<p id="status" role="status">No data imported.</p>
+<button id="commit" hidden>Confirm import of saved cases and credentials</button>
+<p><a href="./">Open dashboard after verified import</a></p>
+<script src="./migration.js"></script>
+<script>
+(function(){
+  const M=SpearMigration,OLD='https://ndpennie.github.io',status=document.getElementById('status'),commit=document.getElementById('commit');
+  let popup=null,pending=null,busy=false;
+  // Preserve a complete recovery snapshot in a single IndexedDB transaction BEFORE
+  // touching localStorage. This also protects against a page close mid-import.
+  async function stage(p,hash){
+    await new Promise((resolve,reject)=>{
+      const request=indexedDB.open('spear-migration-recovery',1);
+      request.onupgradeneeded=()=>request.result.createObjectStore('snapshots');
+      request.onerror=()=>reject(Error('Recovery storage unavailable'));
+      request.onblocked=()=>reject(Error('Close other import tabs and retry'));
+      request.onsuccess=()=>{
+        const db=request.result,tx=db.transaction('snapshots','readwrite');
+        tx.objectStore('snapshots').put(p,hash);
+        tx.oncomplete=()=>{db.close();resolve()};
+        tx.onabort=()=>{db.close();reject(Error('Recovery snapshot could not be saved'))};
+      };
+    });
+  }
+  async function preview(p,reply){
+    M.validate(p);
+    const hash=await M.digest(p);
+    if(reply&&hash!==reply.hash)throw Error('Transfer checksum mismatch');
+    pending={p,hash,reply};commit.hidden=false;
+    status.textContent=p.caseCount+' saved cases ready. This includes credentials and all saved spear_ settings. Only confirm a backup from your own trusted device. No data has been imported.';
+  }
+  document.getElementById('open').onclick=()=>{
+    popup=window.open(OLD+'/gipec-ai2/export.html','spearmove','width=720,height=700');
+    if(!popup)status.textContent='Popup blocked. Use the encrypted file fallback link above.';
+  };
+  window.addEventListener('message',async e=>{
+    if(busy||pending||e.origin!==OLD||!popup||e.source!==popup||!e.data||e.data.type!=='spear-move-v2')return;
+    busy=true;
+    try{
+      if(typeof e.data.id!=='string'||typeof e.data.hash!=='string')throw Error('Invalid transfer');
+      await preview(e.data.payload,{peer:e.source,id:e.data.id,hash:e.data.hash});
+    }catch(e){status.textContent='Transfer rejected. No data imported.'}
+    finally{busy=false}
+  });
+  document.getElementById('read').onclick=async function(){
+    if(busy)return;busy=true;pending=null;commit.hidden=true;
+    try{
+      const f=document.getElementById('file').files[0];
+      if(!f)throw Error('Select a backup file');
+      // Explicit resource limit, never truncate or partially import.
+      if(f.size>100*1024*1024)throw Error('Backup exceeds the 100 MiB importer limit; no data imported');
+      await preview(await M.decrypt(JSON.parse(await f.text()),document.getElementById('password').value),null);
+    }catch(e){status.textContent='Could not read backup. Check the file and passphrase. No data imported.'}
+    finally{document.getElementById('password').value='';busy=false}
+  };
+  commit.onclick=async function(){
+    if(!pending||busy)return;busy=true;this.disabled=true;
+    const {p,hash,reply}=pending;
+    try{
+      await stage(p,hash);
+      M.restore(localStorage,p);
+      status.textContent='Verified '+p.caseCount+' saved cases and every transferred setting. Keep the source and backup; check attachments in the dashboard.';
+      if(reply)reply.peer.postMessage({type:'spear-move-v2-ack',id:reply.id,hash,caseCount:p.caseCount},OLD);
+      pending=null;this.hidden=true;
+    }catch(e){status.textContent=e.message}
+    finally{busy=false;this.disabled=false}
+  };
+})();
+</script></body></html>
