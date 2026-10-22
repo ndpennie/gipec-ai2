@@ -1,0 +1,98 @@
+--- a/index.html
++++ b/index.html
+@@ -1698,7 +1698,7 @@
+ const REFIMG_KEY='spear_refimgs';
+ let REFIMAGES=[];
+ function refImgLoad(){try{REFIMAGES=JSON.parse(localStorage.getItem(REFIMG_KEY)||'[]')}catch(e){REFIMAGES=[]}}
+-function refImgSave(){try{localStorage.setItem(REFIMG_KEY,JSON.stringify(REFIMAGES.slice(0,500)))}catch(e){}}
++function refImgSave(){try{localStorage.setItem(REFIMG_KEY,JSON.stringify(REFIMAGES))}catch(e){toast('Reference images could not be saved. Previous saved images were retained.');throw e}}
+ function refImgAdd(hash,label,note){
+   if(!hash) return null;
+   if(REFIMAGES.some(r=>r.hash===hash)) return null;
+@@ -4425,13 +4425,13 @@
+ const ITEMS_KEY='spear_items', ITEMS_MAX=600;
+ function itemsSave(){
+   try{
+-    const slim=items.slice(0,ITEMS_MAX).map(i=>{const {thumb,...rest}=i;return rest});
+-    localStorage.setItem(ITEMS_KEY,JSON.stringify(slim));
++    localStorage.setItem(ITEMS_KEY,JSON.stringify(items));
+   }catch(e){
+-    try{localStorage.setItem(ITEMS_KEY,JSON.stringify(items.slice(0,120).map(i=>{const {thumb,...rest}=i;return rest})));}
+-    catch(_){ try{localStorage.removeItem(ITEMS_KEY)}catch(__){} }
++    toast('Cases could not be saved. Keep this tab open and export a backup before closing it. Previous saved cases were retained.');
++    throw e;
+   }
+ }
++
+ function itemsLoad(){
+   try{
+     const a=JSON.parse(localStorage.getItem(ITEMS_KEY)||'[]');
+@@ -4883,18 +4883,13 @@
+ 
+ function libSave(){
+   try{
+-    
+-    let mine=LIBRARY.filter(d=>d.ts!=='seed');
+-    let total=0; const keep=[];
+-    for(const d of mine){
+-      const t=(d.text||'').slice(0,LIB_MAX_DOC);
+-      if(total+t.length>LIB_MAX_TOTAL)break;
+-      total+=t.length;
+-      keep.push({...d,text:t,image:null});
+-    }
+-    localStorage.setItem(LIB_KEY,JSON.stringify(keep));
+-  }catch(e){  }
++    localStorage.setItem(LIB_KEY,JSON.stringify(LIBRARY.filter(d=>d.ts!=='seed')));
++  }catch(e){
++    toast('Library could not be saved. Keep this tab open; previous saved library data was retained.');
++    throw e;
++  }
+ }
++
+ function libLoad(){
+   try{
+     const a=JSON.parse(localStorage.getItem(LIB_KEY)||'[]');
+@@ -6019,30 +6014,10 @@
+     var ap=(u.get('api')||'').replace(/\/$/,'');if(ap)localStorage.setItem('spear_api',ap);
+     key=localStorage.getItem('spear_key')||'';api=(localStorage.getItem('spear_api')||BACKEND).replace(/\/$/,'');}catch(e){}
+   var gate=document.getElementById('spearGate'),msg=document.getElementById('spearGateMsg');
+-  // The site used to live at ndpennie.github.io. Browsers keep each address's saved data
+-  // separately, so a device's key and case queue are carried over once, by the owner's click:
+-  // the old address hands them over only to this exact address (export.html checks it).
+-  var OLD='https://ndpennie.github.io';
+-  function applyMove(d){
+-    try{
+-      if(d.key)localStorage.setItem('spear_key',d.key);
+-      var mine=[];try{mine=JSON.parse(localStorage.getItem('spear_items')||'[]')}catch(_){}
+-      var theirs=[];try{theirs=JSON.parse(d.items||'[]')}catch(_){}
+-      var seen={},maxId=0;mine.forEach(function(i){seen[(i.url||'')+'|'+(i.captured||'')+'|'+(i.name||'')]=1;maxId=Math.max(maxId,Number(i.id)||0)});
+-      var ids={};mine.forEach(function(i){ids[i.id]=1});
+-      theirs.forEach(function(i){var k=(i.url||'')+'|'+(i.captured||'')+'|'+(i.name||'');if(seen[k])return;if(ids[i.id]){i.id=++maxId}ids[i.id]=1;mine.push(i)});
+-      localStorage.setItem('spear_items',JSON.stringify(mine.slice(0,600)));
+-      var ex=d.extra||{};Object.keys(ex).forEach(function(k){if(localStorage.getItem(k)==null)localStorage.setItem(k,ex[k])});
+-      say('<b>Moved.</b> '+theirs.length+' case(s) and this device’s setup came over. Opening the dashboard…');
+-      setTimeout(function(){location.reload()},1200);
+-    }catch(err){say('<b>Could not move the data:</b> '+String(err).slice(0,120))}
+-  }
+-  window.addEventListener('message',function(e){if(e.origin===OLD&&e.data&&e.data.type==='spear-move')applyMove(e.data)});
+-  // Redirect fallback (popup blocked): the old address sends the data back in the URL fragment,
+-  // which never leaves the browser.
++  // Legacy fragments can contain credentials and incomplete case data. Never import them.
+   if(/^#spearmove=/.test(location.hash)){
+-    try{var raw=decodeURIComponent(escape(atob(location.hash.slice(11).replace(/-/g,'+').replace(/_/g,'/'))));
+-      history.replaceState(null,'',location.pathname+location.search);applyMove(JSON.parse(raw));return}catch(err){say('<b>Could not move the data:</b> '+String(err).slice(0,120))}
++    history.replaceState(null,'',location.pathname+location.search);
++    location.replace('./migrate.html');return;
+   }
+   function say(h){if(msg)msg.innerHTML=h}
+   window.__tpl=function(k,v){var n=Object.keys(v||{});return Function.apply(null,n.concat('return `'+window.__B.T[k]+'`')).apply(null,n.map(function(x){return v[x]}))};
+@@ -6055,8 +6030,7 @@
+   if(!key){say('<b>This dashboard is private.</b><br>Open your Project Spear setup link once on this device. After that it opens on its own.'
+       +'<div style="margin-top:18px"><button id="spearMove" style="font:700 14px system-ui,sans-serif;background:#fff;color:#0f2a5c;border:0;border-radius:9px;padding:11px 16px;cursor:pointer">Used Project Spear before on this device? Move my setup &amp; cases</button></div>');
+     var mv=document.getElementById('spearMove');
+-    if(mv)mv.onclick=function(){var w=null;try{w=window.open(OLD+'/gipec-ai2/export.html','spearmove','width=480,height=300')}catch(e){}
+-      if(!w){location.href=OLD+'/gipec-ai2/export.html?return=1'}};
++    if(mv)mv.onclick=function(){location.href='./migrate.html'};
+     return}
+   var cached=null;try{cached=JSON.parse(localStorage.getItem('spear_bundle')||'null')}catch(e){}
+   if(cached&&cached.C&&cached.C.CODEBOOK)start(cached);
